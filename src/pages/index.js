@@ -5,7 +5,7 @@ import { StaticImage } from "gatsby-plugin-image";
 import styled from "styled-components";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowDown, faArrowUp } from "@fortawesome/free-solid-svg-icons";
+import { faArrowUp } from "@fortawesome/free-solid-svg-icons";
 
 import Typewriter from "typewriter-effect";
 
@@ -14,15 +14,18 @@ const Container = styled.div`
   flex-direction: row;
 `;
 
-const Text = styled.div`padding-right: 4px;`
+const Text = styled.div`
+  padding-right: 4px;
+`;
 
 const IndexPage = () => {
   return (
     <Layout pageTitle="Hey there 👋">
       <p>
         <div>
+          <p>I'm Sanford. I'm a full-stack Javascript developer.</p>
           <Container>
-            <Text>I'm Sanford. Welcome to my</Text>
+            <Text>Welcome to my</Text>
             <Typewriter
               options={{
                 strings: [
@@ -42,10 +45,8 @@ const IndexPage = () => {
         </div>
       </p>
       <p>
-        Thats me hiking <FontAwesomeIcon icon={faArrowDown} />
-      </p>
-      <p>
-        Click on the links above <FontAwesomeIcon icon={faArrowUp} /> to learn more about me
+        Click on the links above <FontAwesomeIcon icon={faArrowUp} /> to learn
+        more about me
       </p>
       <StaticImage
         alt="Clifford, a reddish-brown pitbull, posing on a couch and looking stoically at the camera"
