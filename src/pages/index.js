@@ -31,7 +31,9 @@ const IndexPage = () => {
                   " portfolio",
                   " creative space",
                 ],
+                deleteSpeed: 20,
                 autoStart: true,
+                delay: 50,
                 cursor: "",
                 loop: true,
               }}
