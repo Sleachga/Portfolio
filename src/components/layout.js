@@ -9,7 +9,7 @@ const Container = styled.div`
   font-family: sans-serif;
 `
 
-const Heading = styled.h1`color: rebeccapurple;`
+const Heading = styled.h1`color: #199615;`
 
 const Navlinks = styled.ul`
   display: flex;
@@ -33,6 +33,9 @@ const Layout = ({ pageTitle, children }) => {
           </NavlinkItem>
           <NavlinkItem>
             <NavLinkText to="/about">About</NavLinkText>
+          </NavlinkItem>
+          <NavlinkItem>
+            <NavLinkText to="/blog">Blog</NavLinkText>
           </NavlinkItem>
         </Navlinks>
       </nav>
