@@ -3,6 +3,8 @@ import Layout from "../components/layout";
 import { StaticImage } from "gatsby-plugin-image";
 
 import styled from "styled-components";
+import "./css/fonts.css";
+import "./css/global.css";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowUp } from "@fortawesome/free-solid-svg-icons";
@@ -21,29 +23,27 @@ const Text = styled.div`
 const IndexPage = () => {
   return (
     <Layout pageTitle="Hey there 👋">
-      <p>
-        <div>
-          <p>I'm Sanford. I'm a full-stack Javascript developer.</p>
-          <Container>
-            <Text>Welcome to my</Text>
-            <Typewriter
-              options={{
-                strings: [
-                  " personal site",
-                  " blog",
-                  " portfolio",
-                  " creative space",
-                ],
-                deleteSpeed: 20,
-                autoStart: true,
-                delay: 50,
-                cursor: "",
-                loop: true,
-              }}
-            />
-          </Container>
-        </div>
-      </p>
+      <div>
+        <p>I'm Sanford. I'm a full-stack Javascript developer.</p>
+        <Container>
+          <Text>Welcome to my</Text>
+          <Typewriter
+            options={{
+              strings: [
+                " personal site",
+                " blog",
+                " portfolio",
+                " creative space",
+              ],
+              deleteSpeed: 20,
+              autoStart: true,
+              delay: 50,
+              cursor: "",
+              loop: true,
+            }}
+          />
+        </Container>
+      </div>
       <p>
         Click on the links above <FontAwesomeIcon icon={faArrowUp} /> to learn
         more about me
