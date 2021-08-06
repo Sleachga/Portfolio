@@ -1,18 +1,21 @@
 import * as React from "react";
 import { Link } from "gatsby";
 
+import Canvas from "./fishCanvas";
+
 import styled from "styled-components";
 
 const Container = styled.div`
   margin: auto;
   max-width: 500px;
   font-family: sans-serif;
-  background: aliceblue;
   height: 100%;
   border-radius: 30px;
   padding: 7px 20px 7px 20px;
   margin-top: 10px;
   background: rgba(255, 255, 255, 0.5);
+  position: relative;
+  z-index: 5;
 `;
 
 const Heading = styled.h1`
@@ -54,47 +57,50 @@ const NavLinkText = styled((props) => <Link {...props} />)`
 
 const Layout = ({ pageTitle, children, page }) => {
   return (
-    <Container>
-      <title>{pageTitle}</title>
-      <nav>
-        <Navlinks>
-          <NavlinkItem first>
-            <NavLinkText selected={page === "home"} to="/">
-              Home
-            </NavLinkText>
-          </NavlinkItem>
-          <NavlinkItem>
-            <NavLinkText selected={page === "about"} to="/about">
-              About
-            </NavLinkText>
-          </NavlinkItem>
-          <NavlinkItem>
-            <NavLinkText selected={page === "resume"} to="/resume">
-              Resumé
-            </NavLinkText>
-          </NavlinkItem>
-          <NavlinkItem>
-            <NavLinkText selected={page === "blog"} to="/blog">
-              Blog
-            </NavLinkText>
-          </NavlinkItem>
-          <NavlinkItem>
-            <NavLinkText selected={page === "challenges"} to="/challenges">
-              Challenges
-            </NavLinkText>
-          </NavlinkItem>
-          <NavlinkItem last>
-            <NavLinkText selected={page === "fish"} to="/fish">
-              Feed the Fish
-            </NavLinkText>
-          </NavlinkItem>
-        </Navlinks>
-      </nav>
-      <main>
-        {pageTitle !== "Fish" && <Heading>{pageTitle}</Heading>}
-        {children}
-      </main>
-    </Container>
+    <div>
+      <Canvas />
+      <Container>
+        <title>{pageTitle}</title>
+        <nav>
+          <Navlinks>
+            <NavlinkItem first>
+              <NavLinkText selected={page === "home"} to="/">
+                Home
+              </NavLinkText>
+            </NavlinkItem>
+            <NavlinkItem>
+              <NavLinkText selected={page === "about"} to="/about">
+                About
+              </NavLinkText>
+            </NavlinkItem>
+            <NavlinkItem>
+              <NavLinkText selected={page === "resume"} to="/resume">
+                Resumé
+              </NavLinkText>
+            </NavlinkItem>
+            <NavlinkItem>
+              <NavLinkText selected={page === "blog"} to="/blog">
+                Blog
+              </NavLinkText>
+            </NavlinkItem>
+            <NavlinkItem>
+              <NavLinkText selected={page === "challenges"} to="/challenges">
+                Challenges
+              </NavLinkText>
+            </NavlinkItem>
+            <NavlinkItem last>
+              <NavLinkText selected={page === "fish"} to="/fish">
+                Feed the Fish
+              </NavLinkText>
+            </NavlinkItem>
+          </Navlinks>
+        </nav>
+        <main>
+          {pageTitle !== "Fish" && <Heading>{pageTitle}</Heading>}
+          {children}
+        </main>
+      </Container>
+    </div>
   );
 };
 
