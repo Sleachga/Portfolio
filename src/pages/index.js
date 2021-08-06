@@ -22,7 +22,7 @@ const Text = styled.div`
 
 const IndexPage = () => {
   return (
-    <Layout pageTitle="Hey there 👋">
+    <Layout page='home' pageTitle="Hey there 👋">
       <div>
         <p>I'm Sanford. I'm a full-stack Javascript developer.</p>
         <Container>
@@ -49,7 +49,7 @@ const IndexPage = () => {
         more about me
       </p>
       <StaticImage
-        alt="Clifford, a reddish-brown pitbull, posing on a couch and looking stoically at the camera"
+        alt="Me looking good while hiking"
         src="../images/profile.jpeg"
       />
     </Layout>

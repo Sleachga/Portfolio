@@ -7,7 +7,7 @@ import { faWrench } from '@fortawesome/free-solid-svg-icons'
 
 const Portfolio = () => {
   return (
-    <Layout pageTitle="Portfolio">
+    <Layout page='portfolio' pageTitle="Portfolio">
       <p>In construction <FontAwesomeIcon icon={faWrench} /></p>
     </Layout>
   )

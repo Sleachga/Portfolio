@@ -7,7 +7,7 @@ import { faWrench } from '@fortawesome/free-solid-svg-icons'
 
 const AboutPage = () => {
   return (
-    <Layout pageTitle="About Me">
+    <Layout page='about' pageTitle='About Me'>
       <p>In construction <FontAwesomeIcon icon={faWrench} /></p>
     </Layout>
   )
