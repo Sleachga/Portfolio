@@ -22,7 +22,7 @@ const Text = styled.div`
 
 const IndexPage = () => {
   return (
-    <Layout page='home' pageTitle="Hey there 👋">
+    <Layout page="home" pageTitle="Hey there 👋">
       <div>
         <p>I'm Sanford. I'm a full-stack Javascript developer.</p>
         <Container>
@@ -46,12 +46,14 @@ const IndexPage = () => {
       </div>
       <p>
         Click on the links above <FontAwesomeIcon icon={faArrowUp} /> to learn
-        more about me
+        more about me (or feed the fish)
       </p>
-      <StaticImage
-        alt="Me looking good while hiking"
-        src="../images/profile.jpeg"
-      />
+      <div style={{ marginBottom: "10px" }}>
+        <StaticImage
+          alt="Me looking good while hiking"
+          src="../images/profile.jpeg"
+        />
+      </div>
     </Layout>
   );
 };
