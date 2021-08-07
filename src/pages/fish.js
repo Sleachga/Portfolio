@@ -3,7 +3,9 @@ import Layout from '../components/layout'
 
 const Fish = () => {
   return (
-    <Layout page='fish' pageTitle="Fish"></Layout>
+    <Layout page='fish' pageTitle="Fish">
+      <div></div>
+    </Layout>
   )
 }
 
