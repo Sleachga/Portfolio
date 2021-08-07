@@ -21,4 +21,5 @@ const Provider = (props) => {
   );
 };
 
-export default ({ element }) => <Provider>{element}</Provider>;
+let component = ({ element }) => <Provider>{element}</Provider>;
+export default component;
