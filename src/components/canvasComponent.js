@@ -26,8 +26,10 @@ const getPixelRatio = (context) => {
   return (window.devicePixelRatio || 1) / backingStore;
 };
 
-const CanvasComponent = (pondData) => {
+const CanvasComponent = ({ data }) => {
   const ref = useRef();
+
+  console.log(data);
 
   useEffect(() => {
     let canvas = ref.current;
@@ -48,7 +50,7 @@ const CanvasComponent = (pondData) => {
 
     const render = () => {
       context.clearRect(0, 0, canvas.width, canvas.height);
-      draw(context, canvas, pondData);
+      draw(context, canvas, data);
       context.beginPath();
       requestId = requestAnimationFrame(render);
     };
