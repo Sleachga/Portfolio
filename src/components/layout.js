@@ -96,7 +96,7 @@ const Layout = ({ pageTitle, children, page }) => {
           </Navlinks>
         </nav>
         <main>
-          <Heading>{pageTitle}</Heading>
+          {page !== 'fish' && <Heading>{pageTitle}</Heading>}
           {children}
         </main>
       </Container>

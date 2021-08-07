@@ -1,0 +1,24 @@
+---
+title: "Context Clues"
+date: "2021-08-06"
+---
+
+## Context Clues
+
+When I first started learning React, **Redux** was my holy grail. 
+My first React application was a front-end application for a database that contained 
+most of the movies/shows in WarnerMedia's expansive catalogue.
+I was working with components nested 8-10 levels deep at times and needed a way to manage all of the data efficiently.
+Redux was my best-friend, lifeline, and I defended it with every fiber of my being–or at least right up until I learned to use React hooks.
+
+Between **useState()**, **useEffect()** and **useRef()** I was in functional component heaven! –– I just hadn't had a good enough reason to completely get rid of 
+Redux and use **React Context**... until today!
+
+Gatsby JS is great, but it recreates the layout component each time you visit a different page.  So I couldn't **useState()** to hold the metadata of the koi fish that will
+be swimming in the background of my website.  I decided I would try using **React Context** rather than setting up redux (and maybe saw a few articles online advising me to try this).
+
+Bottom line: **React Context** is quick, easy to use, and will now be my go-to rather than **Redux**.
+
+I created a store, exposed the ```pondData``` and ```setPondData``` variables, added a container component, and passed down the necessary data to both.
+
+The result is exactly what I wanted!  In with the new, out with the old.

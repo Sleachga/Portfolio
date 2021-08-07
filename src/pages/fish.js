@@ -6,4 +6,6 @@ const Challenges = () => {
   )
 }
 
+// TODO: maybe put a box bottom left that explains this page (click)
+
 export default Challenges
