@@ -88,11 +88,11 @@ const Layout = ({ pageTitle, children, page }) => {
                 Challenges
               </NavLinkText>
             </NavlinkItem>
-            <NavlinkItem last>
+            {/* <NavlinkItem last>
               <NavLinkText selected={page === "fish"} to="/fish">
                 Feed the Fish
               </NavLinkText>
-            </NavlinkItem>
+            </NavlinkItem> */}
           </Navlinks>
         </nav>
         <main>
