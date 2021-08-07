@@ -3,13 +3,17 @@ import React, { useState } from "react";
 export const myContext = React.createContext();
 
 const Provider = (props) => {
-  const [isDark, setTheme] = useState(false);
+  const [pondData, setPondData] = useState({
+      fish: [],
+      food: [],
+      pads: []
+  });
 
   return (
     <myContext.Provider
       value={{
-        isDark,
-        changeTheme: () => setTheme(!isDark),
+        pondData,
+        setPondData: (data) => setPondData(data),
       }}
     >
       {props.children}

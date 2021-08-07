@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Link } from "gatsby";
 
-import Canvas from "./fishCanvas";
+import CanvasContainer from "./canvasContainer";
 
 import styled from "styled-components";
 
@@ -58,7 +58,7 @@ const NavLinkText = styled((props) => <Link {...props} />)`
 const Layout = ({ pageTitle, children, page }) => {
   return (
     <div>
-      <Canvas />
+      <CanvasContainer />
       <Container>
         <title>{pageTitle}</title>
         <nav>

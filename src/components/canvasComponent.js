@@ -24,11 +24,7 @@ const getPixelRatio = (context) => {
   return (window.devicePixelRatio || 1) / backingStore;
 };
 
-const FishCanvas = () => {
-  const [fish, setfish] = useState([]);
-  const [foods, setFoods] = useState([]);
-  const [pads, setpads] = useState([]);
-
+const CanvasComponent = (pondData) => {
   const ref = useRef();
 
   useEffect(() => {
@@ -74,4 +70,4 @@ const FishCanvas = () => {
   return <Canvas ref={ref} />;
 };
 
-export default FishCanvas;
+export default CanvasComponent;
