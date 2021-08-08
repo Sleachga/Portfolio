@@ -16,6 +16,7 @@ export class Lilypad {
     this.dy = (Math.random() - 0.5) * 1;
     this.startAngle = Math.random() * Math.PI * 2;
     this.endAngle = this.startAngle + Math.PI;
+    this.rotateSpeed = Math.random() > 0.5 ? 0.005 : -0.005;
     this.petalLength = 12 + Math.random() * 4;
     this.radius = 20;
     this.petalColor =
@@ -116,5 +117,8 @@ export class Lilypad {
 
     this.x += this.dx;
     this.y += this.dy;
+
+    this.startAngle += this.rotateSpeed;
+    this.endAngle = this.startAngle + Math.PI;
   }
 }
