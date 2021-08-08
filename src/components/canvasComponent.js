@@ -1,7 +1,9 @@
 import React, { useEffect, useRef } from "react";
 import styled from "styled-components";
 
-import draw from '../animations/draw';
+import draw from "../animations/draw";
+import generatePondData from "../animations/generatePondData";
+import updatePondData from "../animations/updatePondData";
 
 const Canvas = styled.canvas`
   width: 100%;
@@ -13,45 +15,41 @@ const Canvas = styled.canvas`
   z-index: 0;
 `;
 
-const getPixelRatio = (context) => {
-  var backingStore =
-    context.backingStorePixelRatio ||
-    context.webkitBackingStorePixelRatio ||
-    context.mozBackingStorePixelRatio ||
-    context.msBackingStorePixelRatio ||
-    context.oBackingStorePixelRatio ||
-    context.backingStorePixelRatio ||
-    1;
+const resize = (canvas) => {
+  const width = window.innerWidth;
+  const height = window.innerHeight;
 
-  return (window.devicePixelRatio || 1) / backingStore;
-};
-
-const CanvasComponent = ({ data }) => {
-  const ref = useRef();
-
-  console.log(data);
-
-  useEffect(() => {
-    let canvas = ref.current;
-    let context = canvas.getContext("2d");
-
-    let ratio = getPixelRatio(context);
-    let width = getComputedStyle(canvas).getPropertyValue("width").slice(0, -2);
-    let height = getComputedStyle(canvas)
-      .getPropertyValue("height")
-      .slice(0, -2);
-
+  if (canvas.width !== width || canvas.height !== height) {
+    const { devicePixelRatio: ratio = 1 } = window;
+    const context = canvas.getContext("2d");
     canvas.width = width * ratio;
     canvas.height = height * ratio;
-    canvas.style.width = `${width}px`;
-    canvas.style.height = `${height}px`;
+    context.scale(ratio, ratio);
+  }
+};
+
+const CanvasComponent = ({ pondData, setPondData }) => {
+  const ref = useRef();
+
+  useEffect(() => {
+    // Initially set it if empty
+
+    if (pondData.fish.length <= 1 && pondData.pads.length <= 1) {
+      generatePondData(setPondData);
+    }
+
+    console.log(pondData);
+
+    let canvas = ref.current;
+    let context = canvas.getContext("2d");
 
     let requestId;
 
     const render = () => {
+      resize(canvas);
       context.clearRect(0, 0, canvas.width, canvas.height);
-      draw(context, canvas, data);
-      context.beginPath();
+      draw(context, canvas, pondData);
+      updatePondData(pondData, setPondData);
       requestId = requestAnimationFrame(render);
     };
 

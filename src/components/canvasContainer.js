@@ -7,7 +7,7 @@ const CanvasContainer = () => {
         <myContext.Consumer>
           {context => (
             <React.Fragment>
-              <CanvasComponent data={context}/>
+              <CanvasComponent pondData={context.pondData} setPondData={context.setPondData}/>
             </React.Fragment>
           )}
         </myContext.Consumer>
