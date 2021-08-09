@@ -1,9 +1,12 @@
-import * as React from "react";
-import { Link } from "gatsby";
+import * as React from 'react';
+import { Link } from 'gatsby';
 
-import CanvasContainer from "./canvasContainer";
+import CanvasContainer from './canvasContainer';
 
-import styled from "styled-components";
+import styled from 'styled-components';
+
+import PropTypes from 'prop-types';
+
 
 const Container = styled.div`
   margin: auto;
@@ -64,32 +67,32 @@ const Layout = ({ pageTitle, children, page }) => {
         <nav>
           <Navlinks>
             <NavlinkItem first>
-              <NavLinkText selected={page === "home"} to="/">
+              <NavLinkText selected={page === 'home'} to="/">
                 Home
               </NavLinkText>
             </NavlinkItem>
             <NavlinkItem>
-              <NavLinkText selected={page === "about"} to="/about">
+              <NavLinkText selected={page === 'about'} to="/about">
                 About
               </NavLinkText>
             </NavlinkItem>
             <NavlinkItem>
-              <NavLinkText selected={page === "resume"} to="/resume">
+              <NavLinkText selected={page === 'resume'} to="/resume">
                 Resumé
               </NavLinkText>
             </NavlinkItem>
             <NavlinkItem>
-              <NavLinkText selected={page === "blog"} to="/blog">
+              <NavLinkText selected={page === 'blog'} to="/blog">
                 Blog
               </NavLinkText>
             </NavlinkItem>
             <NavlinkItem>
-              <NavLinkText selected={page === "challenges"} to="/challenges">
+              <NavLinkText selected={page === 'challenges'} to="/challenges">
                 Challenges
               </NavLinkText>
             </NavlinkItem>
             <NavlinkItem last>
-              <NavLinkText selected={page === "fish"} to="/fish">
+              <NavLinkText selected={page === 'fish'} to="/fish">
                 Feed the Fish
               </NavLinkText>
             </NavlinkItem>
@@ -102,6 +105,12 @@ const Layout = ({ pageTitle, children, page }) => {
       </Container>
     </div>
   );
+};
+
+Layout.propTypes = {
+  pageTitle: PropTypes.string,
+  children: PropTypes.children,
+  page: PropTypes.string
 };
 
 export default Layout;

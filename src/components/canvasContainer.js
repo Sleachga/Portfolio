@@ -1,6 +1,6 @@
-import React from "react";
-import { myContext } from "../../provider";
-import CanvasComponent from "./canvasComponent";
+import React from 'react';
+import { myContext } from '../../provider';
+import CanvasComponent from './canvasComponent';
 
 const CanvasContainer = () => {
   return (
@@ -12,10 +12,10 @@ const CanvasContainer = () => {
               context
                 ? context.pondData
                 : {
-                    fish: [],
-                    food: [],
-                    pads: [],
-                  }
+                  fish: [],
+                  food: [],
+                  pads: [],
+                }
             }
             setPondData={context ? context.setPondData : () => {}}
           />

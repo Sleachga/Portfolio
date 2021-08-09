@@ -1,9 +1,11 @@
-import React, { useEffect, useRef } from "react";
-import styled from "styled-components";
+import React, { useEffect, useRef } from 'react';
+import styled from 'styled-components';
 
-import draw from "../animations/draw";
-import generatePondData from "../animations/generatePondData";
-import updatePondData from "../animations/updatePondData";
+import draw from '../animations/draw';
+import generatePondData from '../animations/generatePondData';
+import updatePondData from '../animations/updatePondData';
+
+import PropTypes from 'prop-types';
 
 const Canvas = styled.canvas`
   width: 100%;
@@ -21,7 +23,7 @@ const resize = (canvas) => {
 
   if (canvas.width !== width || canvas.height !== height) {
     const { devicePixelRatio: ratio = 1 } = window;
-    const context = canvas.getContext("2d");
+    const context = canvas.getContext('2d');
     canvas.width = width * ratio;
     canvas.height = height * ratio;
     context.scale(ratio, ratio);
@@ -32,8 +34,6 @@ const CanvasComponent = ({ pondData, setPondData }) => {
   const ref = useRef();
 
   useEffect(() => {
-    // Initially set it if empty
-
     if (pondData.fish.length <= 1 && pondData.pads.length <= 1) {
       generatePondData(setPondData);
     }
@@ -41,7 +41,7 @@ const CanvasComponent = ({ pondData, setPondData }) => {
     console.log(pondData);
 
     let canvas = ref.current;
-    let context = canvas.getContext("2d");
+    let context = canvas.getContext('2d');
 
     let requestId;
 
@@ -61,6 +61,11 @@ const CanvasComponent = ({ pondData, setPondData }) => {
   });
 
   return <Canvas ref={ref} />;
+};
+
+CanvasComponent.propTypes = {
+  pondData: PropTypes.object,
+  setPondData: PropTypes.func
 };
 
 export default CanvasComponent;

@@ -1,12 +1,13 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 
 export const myContext = React.createContext();
 
 const Provider = (props) => {
   const [pondData, setPondData] = useState({
-      fish: [],
-      food: [],
-      pads: []
+    fish: [],
+    food: [],
+    pads: []
   });
 
   return (
@@ -20,6 +21,11 @@ const Provider = (props) => {
     </myContext.Provider>
   );
 };
+
+Provider.propTypes = {
+  children: PropTypes.children,
+};
+
 
 let component = ({ element }) => <Provider>{element}</Provider>;
 export default component;

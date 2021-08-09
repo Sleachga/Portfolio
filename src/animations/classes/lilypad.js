@@ -1,14 +1,4 @@
 export class Lilypad {
-  petalColors = [
-    "#ff00fa",
-    "#8c00ff",
-    "#ce3b63",
-    "#e00ba7",
-    "#ff35e4",
-    "#7c1531",
-    "#7c1531",
-  ];
-
   constructor(width, height) {
     this.x = Math.round(Math.random() * width);
     this.y = Math.round(Math.random() * height);
@@ -19,10 +9,19 @@ export class Lilypad {
     this.rotateSpeed = Math.random() > 0.5 ? 0.005 : -0.005;
     this.petalLength = 12 + Math.random() * 4;
     this.radius = 20;
+    this.petalColors = [
+      '#ff00fa',
+      '#8c00ff',
+      '#ce3b63',
+      '#e00ba7',
+      '#ff35e4',
+      '#7c1531',
+      '#7c1531',
+    ];
     this.petalColor =
-      this.petalColors[
-        Math.round(Math.random() * (this.petalColors.length - 1))
-      ];
+            this.petalColors[
+              Math.round(Math.random() * (this.petalColors.length - 1))
+            ];
   }
 
   draw(context) {
@@ -35,7 +34,7 @@ export class Lilypad {
       this.endAngle,
       false
     );
-    context.fillStyle = "#199615";
+    context.fillStyle = '#199615';
     context.fill();
 
     context.beginPath();
@@ -47,7 +46,7 @@ export class Lilypad {
       this.endAngle + 1.7 * (Math.PI / 2),
       false
     );
-    context.fillstyle = "white";
+    context.fillstyle = 'white';
     context.fill();
 
     // lines on lilypads
@@ -56,13 +55,15 @@ export class Lilypad {
       context.moveTo(this.x, this.y);
       context.lineTo(
         this.x +
-          (this.radius - 2) * Math.cos(this.startAngle + (Math.PI / 2.18) * i),
+                    (this.radius - 2) *
+                        Math.cos(this.startAngle + (Math.PI / 2.18) * i),
         this.y +
-          (this.radius - 2) * Math.sin(this.startAngle + (Math.PI / 2.18) * i)
+                    (this.radius - 2) *
+                        Math.sin(this.startAngle + (Math.PI / 2.18) * i)
       );
       context.lineWidth = 2;
       // context.strokeStyle = "#023a03";
-      context.strokeStyle = "#024219";
+      context.strokeStyle = '#024219';
       context.stroke();
     }
 
@@ -102,7 +103,7 @@ export class Lilypad {
     //the middle part of the flower
     context.beginPath();
     context.arc(this.x, this.y, this.radius / 4, 0, 2 * Math.PI, false);
-    context.fillStyle = "#fffa00";
+    context.fillStyle = '#fffa00';
     context.fill();
   }
 
