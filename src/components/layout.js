@@ -7,7 +7,6 @@ import styled from 'styled-components';
 
 import PropTypes from 'prop-types';
 
-
 const Container = styled.div`
   margin: auto;
   max-width: 500px;
@@ -109,8 +108,11 @@ const Layout = ({ pageTitle, children, page }) => {
 
 Layout.propTypes = {
   pageTitle: PropTypes.string,
-  children: PropTypes.children,
-  page: PropTypes.string
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node,
+  ]),
+  page: PropTypes.string,
 };
 
 export default Layout;

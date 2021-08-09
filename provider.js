@@ -7,7 +7,7 @@ const Provider = (props) => {
   const [pondData, setPondData] = useState({
     fish: [],
     food: [],
-    pads: []
+    pads: [],
   });
 
   return (
@@ -23,9 +23,11 @@ const Provider = (props) => {
 };
 
 Provider.propTypes = {
-  children: PropTypes.children,
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node,
+  ]),
 };
-
 
 let component = ({ element }) => <Provider>{element}</Provider>;
 export default component;
