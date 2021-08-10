@@ -12,16 +12,7 @@ export class Fish {
 
     this.headWidth = 20;
     this.headLength = 30;
-
-    this.colors = [
-      '#d7dde5',
-      '#ea4504',
-      '#d61515',
-      '#ff9400',
-      // 'black',
-      'white',
-    ];
-
+    
     // TODO: Add color spots
     this.colorCombos = [
       { head: '#ff9400', body: '#ff9400', fin: '#ffffff', tailFin: '#ffffff' },
