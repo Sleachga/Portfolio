@@ -1,0 +1,41 @@
+---
+title: "11th Grade Calculus"
+date: "2021-08-09"
+---
+
+If you're anything like me, you told yourself that the trigonometry you learned
+in 11th grade had no real world application.  I remember distinctly telling my 11th grade math teacher 
+that I would NEVER have to do anything that she taught me in the real world outside of class... 
+if only Mrs. Chavez could have seen the dismay on my face today.
+
+Drawing a Koi Fish on an HTML canvas is easy to do.  You use ```context.ellipse()``` to create the
+oval body, ```context.lineTo()``` and ```context.quadraticCurveTo()``` to create the curved body, fins and triangular tail.
+
+It was all going *swimmingly* until I realized I needed to draw all of these connected points **AT ANY ANGLE THE FISH WAS FACING** meaning I needed to calculate
+the coordinates of each point differently based upon it's angle.
+
+A *wave* of horror rushed over my body and I went to google to try to dig up some of the old trigonometry that I had forgotten...
+I knew I had to use ```Math.sin()``` and something about ```SohCahToa```?
+
+After three hours of tinkering I had gotten nowhere... so like any good software developer should, I sent a pathetic message out to my friends asking for help.  Thankfully Michael provided me with this [stackoverflow answer](https://math.stackexchange.com/questions/814950/how-can-i-rotate-a-coordinate-around-a-circle) 
+and I created the following function:
+
+```javascript
+/**
+   * Returns the rotated coordinates of a point around a center point
+   *
+   * @param theta the angle to rotate in radians.
+   * @param x the original location of x coord
+   * @param y the original location of y coord
+   * @param cx the cx coord of center point to rotate around
+   * @param cy the y coord of center point to rotate around
+   */
+  getRotatedPoint(theta, x, y, cx, cy) {
+    return {
+      x: Math.cos(theta) * (x - cx) - Math.sin(theta) * (y - cy) + cx,
+      y: Math.sin(theta) * (x - cx) + Math.cos(theta) * (y - cy) + cy,
+    };
+  }
+```
+
+Moral of the story? Pay attention in your math classes if you want to be a web developer, or at least have smart friends to bail you out.
