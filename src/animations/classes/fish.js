@@ -28,7 +28,10 @@ export class Fish {
       { head: 'black', body: 'white', fin: '#ff9400', tailFin: 'black' },
     ];
 
-    this.colorCombo = this.colorCombos[Math.round(Math.random() * (this.colorCombos.length - 1))];
+    this.colorCombo =
+      this.colorCombos[
+        Math.round(Math.random() * (this.colorCombos.length - 1))
+      ];
 
     this.headColor =
       this.colors[Math.round(Math.random() * (this.colors.length - 1))];
@@ -63,7 +66,7 @@ export class Fish {
     };
   }
 
-  draw(context) {
+  drawTail(context) {
     // Draw tail triangle
     const tailPoints = [];
 
@@ -105,10 +108,96 @@ export class Fish {
     context.lineTo(tailPoints[1].x, tailPoints[1].y);
     context.lineTo(tailPoints[2].x, tailPoints[2].y);
     context.lineTo(tailPoints[0].x, tailPoints[0].y);
-    
+
     context.fillStyle = this.colorCombo.tailFin;
     context.fill();
+  }
 
+  drawLeftFin(context) {
+    const leftFinPoints = [];
+    leftFinPoints.push(
+      this.getRotatedPoint(
+        this.headRotationAngle,
+        this.x + 11,
+        this.y + 8,
+        this.x,
+        this.y
+      )
+    );
+
+    leftFinPoints.push(
+      this.getRotatedPoint(
+        this.headRotationAngle,
+        this.x + 25,
+        this.y + 6,
+        this.x,
+        this.y
+      )
+    );
+
+    leftFinPoints.push(
+      this.getRotatedPoint(
+        this.headRotationAngle,
+        this.x + 25,
+        this.y + 15,
+        this.x,
+        this.y
+      )
+    );
+
+    context.beginPath();
+    context.moveTo(leftFinPoints[0].x, leftFinPoints[0].y);
+    context.lineTo(leftFinPoints[1].x, leftFinPoints[1].y);
+    context.lineTo(leftFinPoints[2].x, leftFinPoints[2].y);
+    context.lineTo(leftFinPoints[0].x, leftFinPoints[0].y);
+
+    context.fillStyle = this.colorCombo.fin;
+    context.fill();
+  }
+
+  drawRightFin(context) {
+    const rightFinPoints = [];
+    rightFinPoints.push(
+      this.getRotatedPoint(
+        this.headRotationAngle,
+        this.x + 11,
+        this.y - 8,
+        this.x,
+        this.y
+      )
+    );
+
+    rightFinPoints.push(
+      this.getRotatedPoint(
+        this.headRotationAngle,
+        this.x + 25,
+        this.y - 6,
+        this.x,
+        this.y
+      )
+    );
+
+    rightFinPoints.push(
+      this.getRotatedPoint(
+        this.headRotationAngle,
+        this.x + 25,
+        this.y - 15,
+        this.x,
+        this.y
+      )
+    );
+
+    context.beginPath();
+    context.moveTo(rightFinPoints[0].x, rightFinPoints[0].y);
+    context.lineTo(rightFinPoints[1].x, rightFinPoints[1].y);
+    context.lineTo(rightFinPoints[2].x, rightFinPoints[2].y);
+    context.lineTo(rightFinPoints[0].x, rightFinPoints[0].y);
+
+    context.fillStyle = this.colorCombo.fin;
+    context.fill();
+  }
+
+  drawBody(context) {
     // Draw Body Triangle (initial, then add bezier curve)
     const bodyPoints = [];
 
@@ -167,7 +256,6 @@ export class Fish {
       )
     );
 
-    // Draw tail triangle
     context.beginPath();
     context.moveTo(bodyPoints[0].x, bodyPoints[0].y);
     context.quadraticCurveTo(
@@ -185,7 +273,9 @@ export class Fish {
     context.lineTo(bodyPoints[0].x, bodyPoints[0].y);
     context.fillStyle = this.colorCombo.body;
     context.fill();
+  }
 
+  drawHead(context) {
     // Draw Head Oval
     context.beginPath();
     context.ellipse(
@@ -199,8 +289,14 @@ export class Fish {
     );
     context.fillStyle = this.colorCombo.head;
     context.fill();
+  }
 
-    // Draw fins
+  draw(context) {
+    this.drawTail(context);
+    this.drawLeftFin(context);
+    this.drawRightFin(context);
+    this.drawBody(context);
+    this.drawHead(context);
   }
 
   update() {
