@@ -113,6 +113,7 @@ export class Fish {
     context.fill();
   }
 
+  // TODO: make fins quadratic curves
   drawLeftFin(context) {
     const leftFinPoints = [];
     leftFinPoints.push(
@@ -155,6 +156,7 @@ export class Fish {
     context.fill();
   }
 
+  // TODO: make fins quadratic curves
   drawRightFin(context) {
     const rightFinPoints = [];
     rightFinPoints.push(
