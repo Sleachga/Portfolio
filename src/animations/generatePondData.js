@@ -1,4 +1,5 @@
 import { Lilypad } from './classes/lilypad';
+import { Fish } from './classes/fish';
 
 const generatePondData = (setPondData) => {
   const pondData = {
@@ -12,6 +13,10 @@ const generatePondData = (setPondData) => {
   
   for (let i = 0; i < 10; i++) {
     pondData.pads.push(new Lilypad(width, height));
+  }
+
+  for (let i = 0; i < 10; i++) {
+    pondData.fish.push(new Fish(width, height));
   }
 
   setPondData(pondData);

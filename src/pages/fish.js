@@ -8,7 +8,7 @@ const Challenges = () => {
   return (
     <Layout page="fish" pageTitle="Feed the Fish">
       <p>
-        In construction <FontAwesomeIcon icon={faWrench} />
+        In construction (don&apos;t worry... they'll be swimming soon) <FontAwesomeIcon icon={faWrench} />
       </p>
     </Layout>
   );

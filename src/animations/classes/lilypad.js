@@ -2,8 +2,8 @@ export class Lilypad {
   constructor(width, height) {
     this.x = Math.round(Math.random() * width);
     this.y = Math.round(Math.random() * height);
-    this.dx = (Math.random() - 0.5) * 0.5;
-    this.dy = (Math.random() - 0.5) * 0.5;
+    this.speedX = (Math.random() - 0.5) * 0.5;
+    this.speedY = (Math.random() - 0.5) * 0.5;
     this.startAngle = Math.random() * Math.PI * 2;
     this.endAngle = this.startAngle + Math.PI;
     this.rotateSpeed = Math.random() > 0.5 ? 0.005 : -0.005;
@@ -16,6 +16,8 @@ export class Lilypad {
       ];
   }
 
+  // TODO: Make SOME have a flower but not all
+  // TODO: Make SOME moving but not all and slow down and make movement randomized for all
   draw(context) {
     context.beginPath();
     context.arc(
@@ -107,15 +109,15 @@ export class Lilypad {
 
   update(width, height) {
     if (this.x > width - 10 || this.x < 10) {
-      this.dx *= -1;
+      this.speedX *= -1;
     }
 
     if (this.y > height - 10 || this.y < 10) {
-      this.dy *= -1;
+      this.speedY *= -1;
     }
 
-    this.x += this.dx;
-    this.y += this.dy;
+    this.x += this.speedX;
+    this.y += this.speedY;
 
     this.startAngle += this.rotateSpeed;
     this.endAngle = this.startAngle + Math.PI;
