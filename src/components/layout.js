@@ -9,7 +9,7 @@ import PropTypes from 'prop-types';
 
 const Container = styled.div`
   margin: auto;
-  max-width: 500px;
+  max-width: ${props => props.page === 'blog-post' ? '700px' : '500px'};
   font-family: sans-serif;
   height: 100%;
   border-radius: 30px;
@@ -61,7 +61,7 @@ const Layout = ({ pageTitle, children, page }) => {
   return (
     <div>
       <CanvasContainer />
-      <Container>
+      <Container page={page}>
         <title>{pageTitle}</title>
         <nav>
           <Navlinks>
