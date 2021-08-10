@@ -22,10 +22,18 @@ export class Fish {
       'white',
     ];
 
+    // TODO: Add color spots
     this.colorCombos = [
-      { head: '#ff9400', body: 'white', fin: '#ff9400', tailFin: '#ff9400' },
-      { head: '#d61515', body: 'white', fin: '#d61515', tailFin: '#d61515' },
-      { head: 'black', body: 'white', fin: '#ff9400', tailFin: 'black' },
+      { head: '#ff9400', body: '#ff9400', fin: '#ffffff', tailFin: '#ffffff' },
+      { head: '#d61515', body: '#d61515', fin: '#ffffff', tailFin: '#ffffff' },
+      { head: '#000000', body: '#000000', fin: '#ff9400', tailFin: '#ff9400' },
+      { head: '#d61515', body: '#d61515', fin: '#ff9400', tailFin: '#ff9400' },
+      { head: '#d61515', body: '#d61515', fin: '#000000', tailFin: '#000000' },
+      { head: '#ffffff', body: '#ffffff', fin: '#ff9400', tailFin: '#ff9400' },
+      { head: '#ffffff', body: '#ffffff', fin: '#d61515', tailFin: '#d61515' },
+      { head: '#000000', body: '#000000', fin: '#ffffff', tailFin: '#ffffff' },
+      { head: '#000000', body: '#000000', fin: '#d61515', tailFin: '#d61515' },
+      { head: '#ffffff', body: '#ffffff', fin: '#000000', tailFin: '#000000' },
     ];
 
     this.colorCombo =
@@ -81,12 +89,34 @@ export class Fish {
       )
     );
 
+    // Top quadratic curve point
+    tailPoints.push(
+      this.getRotatedPoint(
+        this.headRotationAngle,
+        this.x + 45,
+        this.y - 7,
+        this.x,
+        this.y
+      )
+    );
+
     // Top point
     tailPoints.push(
       this.getRotatedPoint(
         this.headRotationAngle,
-        this.x + 50,
+        this.x + 60,
         this.y - 7,
+        this.x,
+        this.y
+      )
+    );
+
+    // Middle point
+    tailPoints.push(
+      this.getRotatedPoint(
+        this.headRotationAngle,
+        this.x + 50,
+        this.y,
         this.x,
         this.y
       )
@@ -96,7 +126,18 @@ export class Fish {
     tailPoints.push(
       this.getRotatedPoint(
         this.headRotationAngle,
-        this.x + 50,
+        this.x + 60,
+        this.y + 7,
+        this.x,
+        this.y
+      )
+    );
+
+    // Bottom quadratic curve point
+    tailPoints.push(
+      this.getRotatedPoint(
+        this.headRotationAngle,
+        this.x + 45,
         this.y + 7,
         this.x,
         this.y
@@ -105,9 +146,20 @@ export class Fish {
 
     context.beginPath();
     context.moveTo(tailPoints[0].x, tailPoints[0].y);
-    context.lineTo(tailPoints[1].x, tailPoints[1].y);
-    context.lineTo(tailPoints[2].x, tailPoints[2].y);
-    context.lineTo(tailPoints[0].x, tailPoints[0].y);
+    context.quadraticCurveTo(
+      tailPoints[1].x,
+      tailPoints[1].y,
+      tailPoints[2].x,
+      tailPoints[2].y
+    );
+    context.lineTo(tailPoints[3].x, tailPoints[3].y);
+    context.lineTo(tailPoints[4].x, tailPoints[4].y);
+    context.quadraticCurveTo(
+      tailPoints[5].x,
+      tailPoints[5].y,
+      tailPoints[0].x,
+      tailPoints[0].y
+    );
 
     context.fillStyle = this.colorCombo.tailFin;
     context.fill();
@@ -146,11 +198,26 @@ export class Fish {
       )
     );
 
+    leftFinPoints.push(
+      this.getRotatedPoint(
+        this.headRotationAngle,
+        this.x + 18,
+        this.y + 17,
+        this.x,
+        this.y
+      )
+    );
+
     context.beginPath();
     context.moveTo(leftFinPoints[0].x, leftFinPoints[0].y);
     context.lineTo(leftFinPoints[1].x, leftFinPoints[1].y);
     context.lineTo(leftFinPoints[2].x, leftFinPoints[2].y);
-    context.lineTo(leftFinPoints[0].x, leftFinPoints[0].y);
+    context.quadraticCurveTo(
+      leftFinPoints[3].x,
+      leftFinPoints[3].y,
+      leftFinPoints[0].x,
+      leftFinPoints[0].y
+    );
 
     context.fillStyle = this.colorCombo.fin;
     context.fill();
@@ -189,11 +256,26 @@ export class Fish {
       )
     );
 
+    rightFinPoints.push(
+      this.getRotatedPoint(
+        this.headRotationAngle,
+        this.x + 18,
+        this.y - 17,
+        this.x,
+        this.y
+      )
+    );
+
     context.beginPath();
     context.moveTo(rightFinPoints[0].x, rightFinPoints[0].y);
     context.lineTo(rightFinPoints[1].x, rightFinPoints[1].y);
     context.lineTo(rightFinPoints[2].x, rightFinPoints[2].y);
-    context.lineTo(rightFinPoints[0].x, rightFinPoints[0].y);
+    context.quadraticCurveTo(
+      rightFinPoints[3].x,
+      rightFinPoints[3].y,
+      rightFinPoints[0].x,
+      rightFinPoints[0].y
+    );
 
     context.fillStyle = this.colorCombo.fin;
     context.fill();
