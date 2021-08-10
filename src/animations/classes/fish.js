@@ -14,6 +14,7 @@ export class Fish {
     this.headLength = 30;
 
     // TODO: Add color spots
+    // TODO Add stripes
     this.colorCombos = [
       { head: '#ff9400', body: '#ff9400', fin: '#ffffff', tailFin: '#ffffff' },
       { head: '#d61515', body: '#d61515', fin: '#ffffff', tailFin: '#ffffff' },

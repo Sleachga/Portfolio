@@ -2,11 +2,11 @@ export class Lilypad {
   constructor(width, height) {
     this.x = Math.round(Math.random() * width);
     this.y = Math.round(Math.random() * height);
-    this.speedX = (Math.random() - 0.5) * 0.5;
-    this.speedY = (Math.random() - 0.5) * 0.5;
+    this.speedX = (Math.random() - 0.5) * 0.1;
+    this.speedY = (Math.random() - 0.5) * 0.1;
     this.startAngle = Math.random() * Math.PI * 2;
     this.endAngle = this.startAngle + Math.PI;
-    this.rotateSpeed = Math.random() > 0.5 ? 0.005 : -0.005;
+    this.rotateSpeed = (Math.random() - 0.5) * 0.01;
     this.petalLength = 12 + Math.random() * 4;
     this.radius = 20;
     this.petalColors = ['#E0BCDD', '#E17081', '#FF9D00', '#E53730', '#A25CB7'];
