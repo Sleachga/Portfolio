@@ -12,7 +12,7 @@ export class Fish {
 
     this.headWidth = 20;
     this.headLength = 30;
-    
+
     // TODO: Add color spots
     this.colorCombos = [
       { head: '#ff9400', body: '#ff9400', fin: '#ffffff', tailFin: '#ffffff' },
@@ -31,15 +31,6 @@ export class Fish {
       this.colorCombos[
         Math.round(Math.random() * (this.colorCombos.length - 1))
       ];
-
-    this.headColor =
-      this.colors[Math.round(Math.random() * (this.colors.length - 1))];
-    this.bodyColor =
-      this.colors[Math.round(Math.random() * (this.colors.length - 1))];
-    this.finColor =
-      this.colors[Math.round(Math.random() * (this.colors.length - 1))];
-    this.tailFinColor =
-      this.colors[Math.round(Math.random() * (this.colors.length - 1))];
 
     this.head = {};
     this.body = {};
