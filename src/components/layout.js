@@ -57,6 +57,10 @@ const NavLinkText = styled((props) => <Link {...props} />)`
     `}
 `;
 
+// TODO: Add a color theme picker in top right dropdown button
+// Also add color themes
+// Save selection in local storage
+
 const Layout = ({ pageTitle, children, page }) => {
   return (
     <div>

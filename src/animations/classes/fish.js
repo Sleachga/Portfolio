@@ -505,14 +505,17 @@ export class Fish {
 
   // TODO: make the speed of animation change based off
   // movement speed (when it can accelerate and decelerate to get food)
-  calculateTailAnimationOffset() {
-    let tailSpeed = 40;
-    return 7 * Math.cos((Math.PI * this.animationFrame) / tailSpeed); // The larger tailSpeed is, the slower fish swims
-  }
 
-  calculateFinAnimationOffset() {
-    let finSpeed = 25;
-    return 0.3 * Math.abs(7 * Math.cos((Math.PI * this.animationFrame) / finSpeed)); // The larger finSpeed is, the slower fish swims
+  /**
+   * Calculate the amount to offset points from given animation frame, speed, and distance
+   * @param {*} speed - the larger speed is, the slower the part will complete an animation loop
+   * @param {*} distanceScale - Amount to scale the distance of movemement
+   * @param {*} abs - If you want absolute value of the function (no negative)
+   * @returns 
+   */
+  calculateAnimationOffset(speed, distanceScale, abs) {
+    const value = Math.cos((Math.PI * this.animationFrame) / speed); // The larger tailSpeed is, the slower fish swims
+    return distanceScale * (abs ? Math.abs(value) : value);
   }
 
   doMovementLogic() {
@@ -521,8 +524,8 @@ export class Fish {
     this.y -= this.speedY;
 
     // Animate the tail bay bee
-    this.tailOffset = this.calculateTailAnimationOffset();
-    this.finOffset = this.calculateFinAnimationOffset();
+    this.tailOffset = this.calculateAnimationOffset(40, 7, false);
+    this.finOffset = this.calculateAnimationOffset(20, 3, true);
     this.animationFrame++;
   }
 
