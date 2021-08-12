@@ -82,8 +82,24 @@ export class Fish {
     // Draw tail triangle
     const tailPoints = [];
 
-    // Animation Rotation Point
-    let arp = this.getRotatedPoint(
+    /**
+     * Here I needed to rotate twice around two different points:
+     *  1st - around the point at the head of the fish to rotate 
+     *  the overall angle of the fish
+     * 
+     *  2nd - around the point near the tail to rotate slightly
+     *  more left or right for the tail wagging for animation
+     * 
+     *  This is a bit confusing so I created two variables to represent these two points
+     *  
+     *  hrp -> [H]ead [R]otaion [P]oint
+     *  trp -> [T]ail [R]otation [P]oint
+     * 
+     *  apologies for any confusion if you're reading this
+     */
+
+    // Head rotation point
+    let hrp = this.getRotatedPoint(
       this.headRotationAngle,
       this.x + 50,
       this.y + this.tailOffset,
@@ -91,10 +107,10 @@ export class Fish {
       this.y
     );
 
-    let rwoa; // Rotation without animation
+    let trp; // Tail rotation point
 
     // Middle bodypoint
-    rwoa = this.getRotatedPoint(
+    trp = this.getRotatedPoint(
       this.headRotationAngle,
       this.x + 40,
       this.y + this.tailOffset,
@@ -103,11 +119,11 @@ export class Fish {
     );
 
     tailPoints.push(
-      this.getRotatedPoint(0.05 * this.tailOffset, rwoa.x, rwoa.y, arp.x, arp.y)
+      this.getRotatedPoint(0.05 * this.tailOffset, trp.x, trp.y, hrp.x, hrp.y)
     );
 
     // Top quadratic curve point
-    rwoa = this.getRotatedPoint(
+    trp = this.getRotatedPoint(
       this.headRotationAngle,
       this.x + 45,
       this.y - 7 + this.tailOffset,
@@ -115,11 +131,11 @@ export class Fish {
       this.y
     );
     tailPoints.push(
-      this.getRotatedPoint(0.05 * this.tailOffset, rwoa.x, rwoa.y, arp.x, arp.y)
+      this.getRotatedPoint(0.05 * this.tailOffset, trp.x, trp.y, hrp.x, hrp.y)
     );
 
     // Top point
-    rwoa = this.getRotatedPoint(
+    trp = this.getRotatedPoint(
       this.headRotationAngle,
       this.x + 60,
       this.y - 7 + this.tailOffset,
@@ -127,11 +143,11 @@ export class Fish {
       this.y
     );
     tailPoints.push(
-      this.getRotatedPoint(0.05 * this.tailOffset, rwoa.x, rwoa.y, arp.x, arp.y)
+      this.getRotatedPoint(0.05 * this.tailOffset, trp.x, trp.y, hrp.x, hrp.y)
     );
 
     // Middle point
-    rwoa = this.getRotatedPoint(
+    trp = this.getRotatedPoint(
       this.headRotationAngle,
       this.x + 50,
       this.y + this.tailOffset,
@@ -139,11 +155,11 @@ export class Fish {
       this.y
     );
     tailPoints.push(
-      this.getRotatedPoint(0.05 * this.tailOffset, rwoa.x, rwoa.y, arp.x, arp.y)
+      this.getRotatedPoint(0.05 * this.tailOffset, trp.x, trp.y, hrp.x, hrp.y)
     );
 
     // Bottom point
-    rwoa = this.getRotatedPoint(
+    trp = this.getRotatedPoint(
       this.headRotationAngle,
       this.x + 60,
       this.y + 7 + this.tailOffset,
@@ -151,11 +167,11 @@ export class Fish {
       this.y
     );
     tailPoints.push(
-      this.getRotatedPoint(0.05 * this.tailOffset, rwoa.x, rwoa.y, arp.x, arp.y)
+      this.getRotatedPoint(0.05 * this.tailOffset, trp.x, trp.y, hrp.x, hrp.y)
     );
 
     // Bottom quadratic curve point
-    rwoa = this.getRotatedPoint(
+    trp = this.getRotatedPoint(
       this.headRotationAngle,
       this.x + 45,
       this.y + 7 + this.tailOffset,
@@ -163,7 +179,7 @@ export class Fish {
       this.y
     );
     tailPoints.push(
-      this.getRotatedPoint(0.05 * this.tailOffset, rwoa.x, rwoa.y, arp.x, arp.y)
+      this.getRotatedPoint(0.05 * this.tailOffset, trp.x, trp.y, hrp.x, hrp.y)
     );
 
     context.beginPath();
@@ -489,9 +505,14 @@ export class Fish {
 
   // TODO: make the speed of animation change based off
   // movement speed (when it can accelerate and decelerate to get food)
-  calculateAnimationOffset() {
+  calculateTailAnimationOffset() {
     let tailSpeed = 40;
     return 7 * Math.cos((Math.PI * this.animationFrame) / tailSpeed); // The larger tailSpeed is, the slower fish swims
+  }
+
+  calculateFinAnimationOffset() {
+    let finSpeed = 25;
+    return 0.3 * Math.abs(7 * Math.cos((Math.PI * this.animationFrame) / finSpeed)); // The larger finSpeed is, the slower fish swims
   }
 
   doMovementLogic() {
@@ -500,8 +521,8 @@ export class Fish {
     this.y -= this.speedY;
 
     // Animate the tail bay bee
-    this.tailOffset = this.calculateAnimationOffset();
-    this.finOffset = 0.5 * Math.abs(this.tailOffset);
+    this.tailOffset = this.calculateTailAnimationOffset();
+    this.finOffset = this.calculateFinAnimationOffset();
     this.animationFrame++;
   }
 
