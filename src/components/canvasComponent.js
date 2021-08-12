@@ -48,6 +48,8 @@ const CanvasComponent = ({ pondData, setPondData }) => {
     const render = () => {
       resize(canvas);
       context.clearRect(0, 0, canvas.width, canvas.height);
+      context.fillStyle = 'rgb(131, 205, 231)';
+      context.fillRect(0, 0, canvas.width, canvas.height);
       draw(context, canvas, pondData);
       updatePondData(pondData, setPondData);
       requestId = requestAnimationFrame(render);
