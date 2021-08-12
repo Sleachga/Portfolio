@@ -187,11 +187,12 @@ export class Fish {
     context.fill();
   }
 
+  // Turn the fins with the rotation of the tail
   drawLeftFin(context) {
     const leftFinPoints = [];
     leftFinPoints.push(
       this.getRotatedPoint(
-        this.headRotationAngle,
+        this.headRotationAngle + (0.01 * this.tailOffset),
         this.x + 11,
         this.y + 8,
         this.x,
@@ -201,7 +202,7 @@ export class Fish {
 
     leftFinPoints.push(
       this.getRotatedPoint(
-        this.headRotationAngle,
+        this.headRotationAngle + (0.01 * this.tailOffset),
         this.x + 25,
         this.y,
         this.x,
@@ -211,7 +212,7 @@ export class Fish {
 
     leftFinPoints.push(
       this.getRotatedPoint(
-        this.headRotationAngle,
+        this.headRotationAngle + (0.01 * this.tailOffset),
         this.x + 25,
         this.y + 15 + this.finOffset,
         this.x,
@@ -221,7 +222,7 @@ export class Fish {
 
     leftFinPoints.push(
       this.getRotatedPoint(
-        this.headRotationAngle,
+        this.headRotationAngle + (0.01 * this.tailOffset),
         this.x + 18,
         this.y + 17,
         this.x,
@@ -248,7 +249,7 @@ export class Fish {
     const rightFinPoints = [];
     rightFinPoints.push(
       this.getRotatedPoint(
-        this.headRotationAngle,
+        this.headRotationAngle + (0.01 * this.tailOffset),
         this.x + 11,
         this.y - 8,
         this.x,
@@ -258,7 +259,7 @@ export class Fish {
 
     rightFinPoints.push(
       this.getRotatedPoint(
-        this.headRotationAngle,
+        this.headRotationAngle + (0.01 * this.tailOffset),
         this.x + 25,
         this.y,
         this.x,
@@ -268,7 +269,7 @@ export class Fish {
 
     rightFinPoints.push(
       this.getRotatedPoint(
-        this.headRotationAngle,
+        this.headRotationAngle + (0.01 * this.tailOffset),
         this.x + 25,
         this.y - 15 - this.finOffset,
         this.x,
@@ -278,7 +279,7 @@ export class Fish {
 
     rightFinPoints.push(
       this.getRotatedPoint(
-        this.headRotationAngle,
+        this.headRotationAngle + (0.01 * this.tailOffset),
         this.x + 18,
         this.y - 17,
         this.x,
