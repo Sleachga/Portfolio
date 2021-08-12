@@ -1,20 +1,35 @@
 export class Fish {
   constructor(width, height) {
+    this.canvasWidth = width;
+    this.canvasHeight = height;
+
     this.x = Math.round(Math.random() * width);
     this.y = Math.round(Math.random() * height);
-    this.speedX = (Math.random() - 0.5) * 0.5;
-    this.speedY = (Math.random() - 0.5) * 0.5;
+    this.speedX = (Math.random() / 2) * 0.5;
+    this.speedY = (Math.random() / 2) * 0.5;
 
-    this.rads = (deg) => (deg * Math.PI) / 180;
+    this.momentumX = 0;
+    this.momentumY = 0;
+
+    this.speed = Math.sqrt(this.speedX ** 2 + this.speedY ** 2);
+
+    this.animationFrame = 0;
+
+    this.turning = false;
+    this.turnAngle = 0;
+    this.turnClockwise = false;
+    this.headOffset = 0;
+    this.tailOffset = 0;
 
     this.headRotationAngle = Math.atan(this.speedY / this.speedX);
-    this.headRotationAngleDegs = (this.headRotationAngle * 180) / Math.PI; // Debug
+    this.headRotationAngleDegs = (this.headRotationAngle * 180) / Math.PI; // For debug purposes
 
     this.headWidth = 20;
     this.headLength = 30;
 
     // TODO: Add color spots
     // TODO Add stripes
+    // TODO code 50% chance for them to just chill, swim, and not move for like 1-2 seconds
     this.colorCombos = [
       { head: '#ff9400', body: '#ff9400', fin: '#ffffff', tailFin: '#ffffff' },
       { head: '#d61515', body: '#d61515', fin: '#ffffff', tailFin: '#ffffff' },
@@ -57,16 +72,39 @@ export class Fish {
     };
   }
 
+  /**
+   * Draws the tail of the fish
+   * @param {CanvasRenderingContext2D} context
+   */
   drawTail(context) {
     // Draw tail triangle
     const tailPoints = [];
 
-    // Middle point
+    const tailX = this.x + 50;
+    const tailY = this.y + this.tailOffset;
+
+    // point to rotate more around is 
+    // this.x + 50
+    // this.y + this.tailOffset
+
+    let { x, y } = this.getRotatedPoint(
+      this.headRotationAngle + this.tailOffset,
+    )
+
+    // const { x: tailX, y: tailY } = this.getRotatedPoint(
+    //   this.headRotationAngle,
+    //   this.x + 40,
+    //   this.y + this.tailOffset,
+    //   this.x + 40,
+    //   this.y + this.tailOffset
+    // );
+
+    // Middle bodypoint
     tailPoints.push(
       this.getRotatedPoint(
         this.headRotationAngle,
         this.x + 40,
-        this.y,
+        this.y + this.tailOffset,
         this.x,
         this.y
       )
@@ -77,7 +115,7 @@ export class Fish {
       this.getRotatedPoint(
         this.headRotationAngle,
         this.x + 45,
-        this.y - 7,
+        this.y - 7 + this.tailOffset,
         this.x,
         this.y
       )
@@ -88,7 +126,7 @@ export class Fish {
       this.getRotatedPoint(
         this.headRotationAngle,
         this.x + 60,
-        this.y - 7,
+        this.y - 7 + this.tailOffset,
         this.x,
         this.y
       )
@@ -99,7 +137,7 @@ export class Fish {
       this.getRotatedPoint(
         this.headRotationAngle,
         this.x + 50,
-        this.y,
+        this.y + this.tailOffset,
         this.x,
         this.y
       )
@@ -110,7 +148,7 @@ export class Fish {
       this.getRotatedPoint(
         this.headRotationAngle,
         this.x + 60,
-        this.y + 7,
+        this.y + 7 + this.tailOffset,
         this.x,
         this.y
       )
@@ -121,7 +159,7 @@ export class Fish {
       this.getRotatedPoint(
         this.headRotationAngle,
         this.x + 45,
-        this.y + 7,
+        this.y + 7 + this.tailOffset,
         this.x,
         this.y
       )
@@ -148,7 +186,6 @@ export class Fish {
     context.fill();
   }
 
-  // TODO: make fins quadratic curves
   drawLeftFin(context) {
     const leftFinPoints = [];
     leftFinPoints.push(
@@ -206,7 +243,6 @@ export class Fish {
     context.fill();
   }
 
-  // TODO: make fins quadratic curves
   drawRightFin(context) {
     const rightFinPoints = [];
     rightFinPoints.push(
@@ -295,7 +331,7 @@ export class Fish {
       this.getRotatedPoint(
         this.headRotationAngle,
         this.x + 50,
-        this.y,
+        this.y + this.tailOffset,
         this.x,
         this.y
       )
@@ -366,7 +402,106 @@ export class Fish {
     this.drawHead(context);
   }
 
+  doTurningLogic() {
+    // Deal with speed being exactly 0;
+    if (this.speedX === 0) this.speedX = 0.01;
+    if (this.speedY === 0) this.speedY = 0.01;
+
+    // Deal with turning ties (hits corner at same time)
+    if (this.x < 50 && this.y < 50) this.x = 50;
+    if (this.x > this.canvasWidth - 50 && this.y > this.canvasHeight - 50)
+      this.x = this.canvasWidth - 50;
+
+    // If hit left or right side
+    if (this.x < 50 || this.x > this.canvasWidth - 50) {
+      this.turning = true;
+
+      // If facing bottom-right turn 90 degrees clockwise
+      if (0 < this.headRotationAngle && this.headRotationAngle < Math.PI / 2) {
+        this.turning = true;
+        this.turnAngle = this.headRotationAngle + Math.PI / 2;
+        this.turnClockwise = true;
+      }
+      // If facing bottom-left turn 90 degrees counter-clockwise
+      else if (
+        Math.PI / 2 < this.headRotationAngle &&
+        this.headRotationAngle < Math.PI
+      ) {
+        this.turning = true;
+        this.turnAngle = this.headRotationAngle + Math.PI / 2;
+        this.turnClockwise = false;
+      }
+      // If facing top-left turn 90 degrees clockwise
+      if (
+        Math.PI < this.headRotationAngle &&
+        this.headRotationAngle < (3 * Math.PI) / 2
+      ) {
+        this.turning = true;
+        this.turnAngle = this.headRotationAngle + Math.PI / 2;
+        this.turnClockwise = true;
+      }
+      // If facing top-right turn 90 degrees counter clockwise
+      else {
+        this.turning = true;
+        this.turnAngle = this.headRotationAngle - Math.PI / 2;
+        this.turnClockwise = false;
+      }
+    }
+
+    // If hit top or bottom side
+    if (this.x < 50 || this.x > this.canvasWidth - 50) {
+      this.turning = true;
+
+      // If facing bottom-right turn 90 degrees clockwise
+      if (0 < this.headRotationAngle && this.headRotationAngle < Math.PI / 2) {
+        this.turning = true;
+        this.turnAngle = this.headRotationAngle + Math.PI / 2;
+        this.turnClockwise = true;
+      }
+      // If facing bottom-left turn 90 degrees counter-clockwise
+      else if (
+        Math.PI / 2 < this.headRotationAngle &&
+        this.headRotationAngle < Math.PI
+      ) {
+        this.turning = true;
+        this.turnAngle = this.headRotationAngle + Math.PI / 2;
+        this.turnClockwise = false;
+      }
+      // If facing top-left turn 90 degrees clockwise
+      if (
+        Math.PI < this.headRotationAngle &&
+        this.headRotationAngle < (3 * Math.PI) / 2
+      ) {
+        this.turning = true;
+        this.turnAngle = this.headRotationAngle + Math.PI / 2;
+        this.turnClockwise = true;
+      }
+      // If facing top-right turn 90 degrees counter clockwise
+      else {
+        this.turning = true;
+        this.turnAngle = this.headRotationAngle - Math.PI / 2;
+        this.turnClockwise = false;
+      }
+    }
+  }
+
+  // TODO: make the speed of animation change based off
+  // movement speed (when it can accelerate and decelerate to get food)
+  calculateAnimationOffset() {
+    return 0.7 * Math.cos((Math.PI * this.animationFrame) / 40);
+  }
+
+  doMovementLogic() {
+    // Yes I know minus but remember its a canvas so + is backwards
+    this.x -= this.speedX;
+    this.y -= this.speedY;
+
+    // Animate the tail bay bee
+    this.tailOffset += this.calculateAnimationOffset();
+    this.animationFrame++;
+  }
+
   update() {
-    () => {};
+    this.doMovementLogic();
   }
 }
