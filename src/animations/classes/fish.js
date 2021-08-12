@@ -8,12 +8,13 @@ export class Fish {
     this.speedX = (Math.random() / 2) * 0.5;
     this.speedY = (Math.random() / 2) * 0.5;
 
+    // TODO: will eventually need this
     this.momentumX = 0;
     this.momentumY = 0;
 
     this.speed = Math.sqrt(this.speedX ** 2 + this.speedY ** 2);
 
-    this.animationFrame = Math.floor(Math.random()) * 100;
+    this.animationFrame = Math.round(Math.random() * 100);
 
     this.turning = false;
     this.turnAngle = 0;
@@ -503,7 +504,8 @@ export class Fish {
   // TODO: make the speed of animation change based off
   // movement speed (when it can accelerate and decelerate to get food)
   calculateAnimationOffset() {
-    return 0.7 * Math.cos((Math.PI * this.animationFrame) / 40);
+    let tailSpeed = 40;
+    return 7 * Math.cos((Math.PI * this.animationFrame) / tailSpeed); // The larger tailSpeed is, the slower fish swims
   }
 
   doMovementLogic() {
@@ -512,7 +514,7 @@ export class Fish {
     this.y -= this.speedY;
 
     // Animate the tail bay bee
-    this.tailOffset += this.calculateAnimationOffset();
+    this.tailOffset = this.calculateAnimationOffset();
     this.animationFrame++;
   }
 
