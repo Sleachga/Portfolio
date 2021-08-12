@@ -83,13 +83,9 @@ export class Fish {
     const tailX = this.x + 50;
     const tailY = this.y + this.tailOffset;
 
-    // point to rotate more around is 
+    // point to rotate more around is
     // this.x + 50
     // this.y + this.tailOffset
-
-    let { x, y } = this.getRotatedPoint(
-      this.headRotationAngle + this.tailOffset,
-    )
 
     // const { x: tailX, y: tailY } = this.getRotatedPoint(
     //   this.headRotationAngle,
@@ -99,70 +95,89 @@ export class Fish {
     //   this.y + this.tailOffset
     // );
 
+
+    // Animation Rotation Point
+    let arp = this.getRotatedPoint(
+      this.headRotationAngle,
+      this.x + 50,
+      this.y + this.tailOffset,
+      this.x,
+      this.y
+    );
+
+    let rwoa; // Rotation without animation
+
     // Middle bodypoint
+    rwoa = this.getRotatedPoint(
+      this.headRotationAngle,
+      this.x + 40,
+      this.y + this.tailOffset,
+      this.x,
+      this.y
+    );
+
     tailPoints.push(
-      this.getRotatedPoint(
-        this.headRotationAngle,
-        this.x + 40,
-        this.y + this.tailOffset,
-        this.x,
-        this.y
-      )
+      this.getRotatedPoint(0.05 * this.tailOffset, rwoa.x, rwoa.y, arp.x, arp.y)
     );
 
     // Top quadratic curve point
+    rwoa = this.getRotatedPoint(
+      this.headRotationAngle,
+      this.x + 45,
+      this.y - 7 + this.tailOffset,
+      this.x,
+      this.y
+    );
     tailPoints.push(
-      this.getRotatedPoint(
-        this.headRotationAngle,
-        this.x + 45,
-        this.y - 7 + this.tailOffset,
-        this.x,
-        this.y
-      )
+      this.getRotatedPoint(0.05 * this.tailOffset, rwoa.x, rwoa.y, arp.x, arp.y)
     );
 
     // Top point
+    rwoa = this.getRotatedPoint(
+      this.headRotationAngle,
+      this.x + 60,
+      this.y - 7 + this.tailOffset,
+      this.x,
+      this.y
+    );
     tailPoints.push(
-      this.getRotatedPoint(
-        this.headRotationAngle,
-        this.x + 60,
-        this.y - 7 + this.tailOffset,
-        this.x,
-        this.y
-      )
+      this.getRotatedPoint(0.05 * this.tailOffset, rwoa.x, rwoa.y, arp.x, arp.y)
     );
 
     // Middle point
+    rwoa = this.getRotatedPoint(
+      this.headRotationAngle,
+      this.x + 50,
+      this.y + this.tailOffset,
+      this.x,
+      this.y
+    );
     tailPoints.push(
-      this.getRotatedPoint(
-        this.headRotationAngle,
-        this.x + 50,
-        this.y + this.tailOffset,
-        this.x,
-        this.y
-      )
+      this.getRotatedPoint(0.05 * this.tailOffset, rwoa.x, rwoa.y, arp.x, arp.y)
     );
 
     // Bottom point
+    rwoa = this.getRotatedPoint(
+      this.headRotationAngle,
+      this.x + 60,
+      this.y + 7 + this.tailOffset,
+      this.x,
+      this.y
+    );
     tailPoints.push(
-      this.getRotatedPoint(
-        this.headRotationAngle,
-        this.x + 60,
-        this.y + 7 + this.tailOffset,
-        this.x,
-        this.y
-      )
+      this.getRotatedPoint(0.05 * this.tailOffset, rwoa.x, rwoa.y, arp.x, arp.y)
     );
 
     // Bottom quadratic curve point
+    rwoa = this.getRotatedPoint(
+      this.headRotationAngle,
+      this.x + 45,
+      this.y + 7 + this.tailOffset,
+      this.x,
+      this.y
+    );
     tailPoints.push(
-      this.getRotatedPoint(
-        this.headRotationAngle,
-        this.x + 45,
-        this.y + 7 + this.tailOffset,
-        this.x,
-        this.y
-      )
+      this.getRotatedPoint(0.05 * this.tailOffset, rwoa.x, rwoa.y, arp.x, arp.y)
     );
 
     context.beginPath();
