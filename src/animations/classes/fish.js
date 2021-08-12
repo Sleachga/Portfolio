@@ -21,6 +21,7 @@ export class Fish {
     this.turnClockwise = false;
     this.headOffset = 0;
     this.tailOffset = 0;
+    this.finOffset = 0;
 
     this.headRotationAngle = Math.atan(this.speedY / this.speedX);
     this.headRotationAngleDegs = (this.headRotationAngle * 180) / Math.PI; // For debug purposes
@@ -80,22 +81,6 @@ export class Fish {
   drawTail(context) {
     // Draw tail triangle
     const tailPoints = [];
-
-    const tailX = this.x + 50;
-    const tailY = this.y + this.tailOffset;
-
-    // point to rotate more around is
-    // this.x + 50
-    // this.y + this.tailOffset
-
-    // const { x: tailX, y: tailY } = this.getRotatedPoint(
-    //   this.headRotationAngle,
-    //   this.x + 40,
-    //   this.y + this.tailOffset,
-    //   this.x + 40,
-    //   this.y + this.tailOffset
-    // );
-
 
     // Animation Rotation Point
     let arp = this.getRotatedPoint(
@@ -218,7 +203,7 @@ export class Fish {
       this.getRotatedPoint(
         this.headRotationAngle,
         this.x + 25,
-        this.y + 6,
+        this.y,
         this.x,
         this.y
       )
@@ -228,7 +213,7 @@ export class Fish {
       this.getRotatedPoint(
         this.headRotationAngle,
         this.x + 25,
-        this.y + 15,
+        this.y + 15 + this.finOffset,
         this.x,
         this.y
       )
@@ -275,7 +260,7 @@ export class Fish {
       this.getRotatedPoint(
         this.headRotationAngle,
         this.x + 25,
-        this.y - 6,
+        this.y,
         this.x,
         this.y
       )
@@ -285,7 +270,7 @@ export class Fish {
       this.getRotatedPoint(
         this.headRotationAngle,
         this.x + 25,
-        this.y - 15,
+        this.y - 15 - this.finOffset,
         this.x,
         this.y
       )
@@ -515,6 +500,7 @@ export class Fish {
 
     // Animate the tail bay bee
     this.tailOffset = this.calculateAnimationOffset();
+    this.finOffset = 0.5 * Math.abs(this.tailOffset);
     this.animationFrame++;
   }
 
