@@ -84,17 +84,17 @@ export class Fish {
 
     /**
      * Here I needed to rotate twice around two different points:
-     *  1st - around the point at the head of the fish to rotate 
+     *  1st - around the point at the head of the fish to rotate
      *  the overall angle of the fish
-     * 
+     *
      *  2nd - around the point near the tail to rotate slightly
      *  more left or right for the tail wagging for animation
-     * 
+     *
      *  This is a bit confusing so I created two variables to represent these two points
-     *  
+     *
      *  hrp -> [H]ead [R]otaion [P]oint
      *  trp -> [T]ail [R]otation [P]oint
-     * 
+     *
      *  apologies for any confusion if you're reading this
      */
 
@@ -208,7 +208,7 @@ export class Fish {
     const leftFinPoints = [];
     leftFinPoints.push(
       this.getRotatedPoint(
-        this.headRotationAngle + (0.01 * this.tailOffset),
+        this.headRotationAngle + 0.01 * this.tailOffset,
         this.x + 11,
         this.y + 8,
         this.x,
@@ -218,7 +218,7 @@ export class Fish {
 
     leftFinPoints.push(
       this.getRotatedPoint(
-        this.headRotationAngle + (0.01 * this.tailOffset),
+        this.headRotationAngle + 0.01 * this.tailOffset,
         this.x + 25,
         this.y,
         this.x,
@@ -228,7 +228,7 @@ export class Fish {
 
     leftFinPoints.push(
       this.getRotatedPoint(
-        this.headRotationAngle + (0.01 * this.tailOffset),
+        this.headRotationAngle + 0.01 * this.tailOffset,
         this.x + 25,
         this.y + 15 + this.finOffset,
         this.x,
@@ -238,7 +238,7 @@ export class Fish {
 
     leftFinPoints.push(
       this.getRotatedPoint(
-        this.headRotationAngle + (0.01 * this.tailOffset),
+        this.headRotationAngle + 0.01 * this.tailOffset,
         this.x + 18,
         this.y + 17,
         this.x,
@@ -265,7 +265,7 @@ export class Fish {
     const rightFinPoints = [];
     rightFinPoints.push(
       this.getRotatedPoint(
-        this.headRotationAngle + (0.01 * this.tailOffset),
+        this.headRotationAngle + 0.01 * this.tailOffset,
         this.x + 11,
         this.y - 8,
         this.x,
@@ -275,7 +275,7 @@ export class Fish {
 
     rightFinPoints.push(
       this.getRotatedPoint(
-        this.headRotationAngle + (0.01 * this.tailOffset),
+        this.headRotationAngle + 0.01 * this.tailOffset,
         this.x + 25,
         this.y,
         this.x,
@@ -285,7 +285,7 @@ export class Fish {
 
     rightFinPoints.push(
       this.getRotatedPoint(
-        this.headRotationAngle + (0.01 * this.tailOffset),
+        this.headRotationAngle + 0.01 * this.tailOffset,
         this.x + 25,
         this.y - 15 - this.finOffset,
         this.x,
@@ -295,7 +295,7 @@ export class Fish {
 
     rightFinPoints.push(
       this.getRotatedPoint(
-        this.headRotationAngle + (0.01 * this.tailOffset),
+        this.headRotationAngle + 0.01 * this.tailOffset,
         this.x + 18,
         this.y - 17,
         this.x,
@@ -430,75 +430,99 @@ export class Fish {
     if (this.x > this.canvasWidth - 50 && this.y > this.canvasHeight - 50)
       this.x = this.canvasWidth - 50;
 
-    // If hit left or right side
-    if (this.x < 50 || this.x > this.canvasWidth - 50) {
-      this.turning = true;
+    if (!this.turning) {
+      // If hit left or right side
+      if (this.x < 50 || this.x > this.canvasWidth - 50) {
+        this.turning = true;
+        this.speedX = -this.speedX;
 
-      // If facing bottom-right turn 90 degrees clockwise
-      if (0 < this.headRotationAngle && this.headRotationAngle < Math.PI / 2) {
-        this.turning = true;
-        this.turnAngle = this.headRotationAngle + Math.PI / 2;
-        this.turnClockwise = true;
+        // If facing top-left turn 90 degrees clockwise
+        if (
+          0 < this.headRotationAngle &&
+          this.headRotationAngle < (Math.PI / 2)
+        ) {
+          this.turning = true;
+          this.turnAngle = this.headRotationAngle + Math.PI / 2;
+          this.turnClockwise = true;
+        }
+        // If facing top-right turn 90 degrees counter clockwise
+        else if (Math.PI / 2 < this.headRotationAngle && this.headRotationAngle < (Math.PI)) {
+          this.turning = true;
+          this.turnAngle = this.headRotationAngle - Math.PI / 2;
+          this.turnClockwise = false;
+        }
+        // If facing bottom-right turn 90 degrees clockwise
+        else if (
+          Math.PI < this.headRotationAngle &&
+          this.headRotationAngle < 3 * Math.PI / 2
+        ) {
+          this.turning = true;
+          this.turnAngle = this.headRotationAngle + Math.PI / 2;
+          this.turnClockwise = true;
+        }
+        // If facing bottom-left turn 90 degrees counter-clockwise
+        else {
+          this.turning = true;
+          this.turnAngle = this.headRotationAngle + Math.PI / 2;
+          this.turnClockwise = false;
+        }
       }
-      // If facing bottom-left turn 90 degrees counter-clockwise
-      else if (
-        Math.PI / 2 < this.headRotationAngle &&
-        this.headRotationAngle < Math.PI
-      ) {
-        this.turning = true;
-        this.turnAngle = this.headRotationAngle + Math.PI / 2;
-        this.turnClockwise = false;
-      }
-      // If facing top-left turn 90 degrees clockwise
-      if (
-        Math.PI < this.headRotationAngle &&
-        this.headRotationAngle < (3 * Math.PI) / 2
-      ) {
-        this.turning = true;
-        this.turnAngle = this.headRotationAngle + Math.PI / 2;
-        this.turnClockwise = true;
-      }
-      // If facing top-right turn 90 degrees counter clockwise
-      else {
-        this.turning = true;
-        this.turnAngle = this.headRotationAngle - Math.PI / 2;
-        this.turnClockwise = false;
-      }
-    }
 
-    // If hit top or bottom side
-    if (this.x < 50 || this.x > this.canvasWidth - 50) {
-      this.turning = true;
+      // If hit top or bottom side
+      if (this.y < 50 || this.y > this.canvasHeight - 50) {
+        this.turning = true;
 
-      // If facing bottom-right turn 90 degrees clockwise
-      if (0 < this.headRotationAngle && this.headRotationAngle < Math.PI / 2) {
-        this.turning = true;
-        this.turnAngle = this.headRotationAngle + Math.PI / 2;
-        this.turnClockwise = true;
+        this.speedY = -this.speedY;
+
+        // If facing top-left turn 90 degrees counter clockwise
+        if (
+          0 < this.headRotationAngle &&
+          this.headRotationAngle < (Math.PI / 2)
+        ) {
+          this.turning = true;
+          this.turnAngle = this.headRotationAngle + Math.PI / 2;
+          this.turnClockwise = false;
+        }
+        // If facing top-right turn 90 degrees clockwise
+        else if (Math.PI / 2 < this.headRotationAngle && this.headRotationAngle < (Math.PI)) {
+          this.turning = true;
+          this.turnAngle = this.headRotationAngle - Math.PI / 2;
+          this.turnClockwise = true;
+        }
+        // If facing bottom-right turn 90 degrees counter clockwise
+        else if (
+          Math.PI < this.headRotationAngle &&
+          this.headRotationAngle < 3 * Math.PI / 2
+        ) {
+          this.turning = true;
+          this.turnAngle = this.headRotationAngle + Math.PI / 2;
+          this.turnClockwise = false;
+        }
+        // If facing bottom-left turn 90 degrees clockwise
+        else {
+          this.turning = true;
+          this.turnAngle = this.headRotationAngle + Math.PI / 2;
+          this.turnClockwise = true;
+        }
       }
-      // If facing bottom-left turn 90 degrees counter-clockwise
-      else if (
-        Math.PI / 2 < this.headRotationAngle &&
-        this.headRotationAngle < Math.PI
-      ) {
-        this.turning = true;
-        this.turnAngle = this.headRotationAngle + Math.PI / 2;
-        this.turnClockwise = false;
-      }
-      // If facing top-left turn 90 degrees clockwise
-      if (
-        Math.PI < this.headRotationAngle &&
-        this.headRotationAngle < (3 * Math.PI) / 2
-      ) {
-        this.turning = true;
-        this.turnAngle = this.headRotationAngle + Math.PI / 2;
-        this.turnClockwise = true;
-      }
-      // If facing top-right turn 90 degrees counter clockwise
-      else {
-        this.turning = true;
-        this.turnAngle = this.headRotationAngle - Math.PI / 2;
-        this.turnClockwise = false;
+    } else {
+      let turnAmountPerFrame = (1 * (Math.PI / 180));
+      if (this.headRotationAngle < this.turnAngle) {
+        if (this.turnAngle - this.headRotationAngle < turnAmountPerFrame)
+          turnAmountPerFrame = this.turnAngle - this.headRotationAngle;
+        this.headRotationAngle += turnAmountPerFrame;
+      } else if (this.headRotationAngle > this.turnAngle) {
+        if (this.headRotationAngle - this.turnAngle < turnAmountPerFrame)
+          turnAmountPerFrame = this.headRotationAngle - this.turnAngle;
+        this.headRotationAngle -= turnAmountPerFrame;
+      } else {
+        this.turning = false;
+
+        // Move slightly away from edge
+        if (this.x < 50) this.x = 51;
+        if (this.y < 50) this.y = 51;
+        if (this.x > this.canvasWidth - 50) this.x = this.canvasWidth - 51;
+        if (this.y > this.canvasHeight - 50) this.y = this.canvasHeight - 51;
       }
     }
   }
@@ -511,7 +535,7 @@ export class Fish {
    * @param {*} speed - the larger speed is, the slower the part will complete an animation loop
    * @param {*} distanceScale - Amount to scale the distance of movemement
    * @param {*} abs - If you want absolute value of the function (no negative)
-   * @returns 
+   * @returns
    */
   calculateAnimationOffset(speed, distanceScale, abs) {
     const value = Math.cos((Math.PI * this.animationFrame) / speed); // The larger tailSpeed is, the slower fish swims
@@ -519,14 +543,17 @@ export class Fish {
   }
 
   doMovementLogic() {
-    // Yes I know minus but remember its a canvas so + is backwards
-    this.x -= this.speedX;
-    this.y -= this.speedY;
+    this.doTurningLogic();
 
-    // Animate the tail bay bee
-    this.tailOffset = this.calculateAnimationOffset(40, 7, false);
-    this.finOffset = this.calculateAnimationOffset(20, 3, true);
-    this.animationFrame++;
+    if (!this.turning) {
+      // Yes I know minus but remember its a canvas so + is backwards
+      this.x -= this.speedX;
+      this.y -= this.speedY;
+  
+      this.tailOffset = this.calculateAnimationOffset(40, 7, false);
+      this.finOffset = this.calculateAnimationOffset(20, 3, true);
+      this.animationFrame++;
+    }
   }
 
   update() {
