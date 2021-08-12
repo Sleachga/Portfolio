@@ -13,7 +13,7 @@ export class Fish {
 
     this.speed = Math.sqrt(this.speedX ** 2 + this.speedY ** 2);
 
-    this.animationFrame = 0;
+    this.animationFrame = Math.floor(Math.random()) * 100;
 
     this.turning = false;
     this.turnAngle = 0;
