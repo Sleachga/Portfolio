@@ -3,11 +3,24 @@ export class Fish {
     this.canvasWidth = width;
     this.canvasHeight = height;
 
-    this.x = Math.round(Math.random() * width);
-    this.y = Math.round(Math.random() * height);
-    this.speedX = (Math.random() / 2) * 0.5;
-    this.speedY = (Math.random() / 2) * 0.5;
+    this.randomFromInterval = (min, max) => Math.floor(Math.random() * (max - min + 1) + min);
 
+    this.x = this.randomFromInterval(50, width - 50);
+    this.y = this.randomFromInterval(50, height - 50);
+    
+    this.speed = 1 + Math.random();
+    this.headRotationAngle = Math.random() * 2 * Math.PI;
+
+    this.headRotationAngleDegs = (this.headRotationAngle * 180) / Math.PI; // For debug purposes
+    
+    this.speedX = Math.abs(this.speed * Math.cos(this.headRotationAngle));
+    this.speedY = Math.abs(this.speed * Math.sin(this.headRotationAngle));
+
+    if (Math.PI / 2 < this.headRotationAngle && this.headRotationAngle < 3 * Math.PI / 2) {
+      this.speedX = -this.speedX;
+      this.speedY = -this.speedY;
+    }
+    
     // TODO: will eventually need this
     this.momentumX = 0;
     this.momentumY = 0;
@@ -22,9 +35,6 @@ export class Fish {
     this.headOffset = 0;
     this.tailOffset = 0;
     this.finOffset = 0;
-
-    this.headRotationAngle = Math.atan(this.speedY / this.speedX);
-    this.headRotationAngleDegs = (this.headRotationAngle * 180) / Math.PI; // For debug purposes
 
     this.headWidth = 20;
     this.headLength = 30;
@@ -426,15 +436,17 @@ export class Fish {
     if (this.speedY === 0) this.speedY = 0.01;
 
     // Deal with turning ties (hits corner at same time)
-    if (this.x < 50 && this.y < 50) this.x = 50;
+    if (this.x < 50 && this.y < 50) this.x = 51;
     if (this.x > this.canvasWidth - 50 && this.y > this.canvasHeight - 50)
-      this.x = this.canvasWidth - 50;
+      this.x = this.canvasWidth - 51;
 
     if (!this.turning) {
       // If hit left or right side
       if (this.x < 50 || this.x > this.canvasWidth - 50) {
+
+        // debugger;
+
         this.turning = true;
-        this.speedX = -this.speedX;
 
         // If facing top-left turn 90 degrees clockwise
         if (
@@ -442,13 +454,13 @@ export class Fish {
           this.headRotationAngle < (Math.PI / 2)
         ) {
           this.turning = true;
-          this.turnAngle = this.headRotationAngle + Math.PI / 2;
+          this.turnAngle = this.headRotationAngle + (Math.PI / 2);
           this.turnClockwise = true;
         }
         // If facing top-right turn 90 degrees counter clockwise
         else if (Math.PI / 2 < this.headRotationAngle && this.headRotationAngle < (Math.PI)) {
           this.turning = true;
-          this.turnAngle = this.headRotationAngle - Math.PI / 2;
+          this.turnAngle = this.headRotationAngle - (Math.PI / 2);
           this.turnClockwise = false;
         }
         // If facing bottom-right turn 90 degrees clockwise
@@ -463,16 +475,17 @@ export class Fish {
         // If facing bottom-left turn 90 degrees counter-clockwise
         else {
           this.turning = true;
-          this.turnAngle = this.headRotationAngle + Math.PI / 2;
+          this.turnAngle = this.headRotationAngle - Math.PI / 2;
           this.turnClockwise = false;
         }
       }
 
       // If hit top or bottom side
       if (this.y < 50 || this.y > this.canvasHeight - 50) {
-        this.turning = true;
 
-        this.speedY = -this.speedY;
+        debugger;
+
+        this.turning = true;
 
         // If facing top-left turn 90 degrees counter clockwise
         if (
@@ -480,13 +493,13 @@ export class Fish {
           this.headRotationAngle < (Math.PI / 2)
         ) {
           this.turning = true;
-          this.turnAngle = this.headRotationAngle + Math.PI / 2;
+          this.turnAngle = this.headRotationAngle - Math.PI / 2;
           this.turnClockwise = false;
         }
         // If facing top-right turn 90 degrees clockwise
         else if (Math.PI / 2 < this.headRotationAngle && this.headRotationAngle < (Math.PI)) {
           this.turning = true;
-          this.turnAngle = this.headRotationAngle - Math.PI / 2;
+          this.turnAngle = this.headRotationAngle + Math.PI / 2;
           this.turnClockwise = true;
         }
         // If facing bottom-right turn 90 degrees counter clockwise
@@ -495,7 +508,7 @@ export class Fish {
           this.headRotationAngle < 3 * Math.PI / 2
         ) {
           this.turning = true;
-          this.turnAngle = this.headRotationAngle + Math.PI / 2;
+          this.turnAngle = this.headRotationAngle - Math.PI / 2;
           this.turnClockwise = false;
         }
         // If facing bottom-left turn 90 degrees clockwise
@@ -507,6 +520,7 @@ export class Fish {
       }
     } else {
       let turnAmountPerFrame = (1 * (Math.PI / 180));
+
       if (this.headRotationAngle < this.turnAngle) {
         if (this.turnAngle - this.headRotationAngle < turnAmountPerFrame)
           turnAmountPerFrame = this.turnAngle - this.headRotationAngle;
@@ -517,6 +531,14 @@ export class Fish {
         this.headRotationAngle -= turnAmountPerFrame;
       } else {
         this.turning = false;
+
+        this.speedX = Math.abs(this.speed * Math.cos(this.headRotationAngle));
+        this.speedY = Math.abs(this.speed * Math.sin(this.headRotationAngle));
+
+        if (Math.PI / 2 < this.headRotationAngle && this.headRotationAngle < 3 * Math.PI / 2) {
+          this.speedX = -this.speedX;
+          this.speedY = -this.speedY;
+        }
 
         // Move slightly away from edge
         if (this.x < 50) this.x = 51;
