@@ -470,7 +470,7 @@ export class Fish {
       this.speedY = -this.speedY;
       this.turnAngle = Math.atan2(this.speedY, this.speedX);
     } else if (this.turning) {
-      let turnAmountPerFrame = (8 * Math.PI) / 180;
+      let turnAmountPerFrame = (12 * Math.PI) / 180;
 
       if (this.headRotationAngle === this.turnAngle) {
         this.turning = false;
