@@ -9,7 +9,7 @@ export class Fish {
     this.x = this.randomFromInterval(50, width - 50);
     this.y = this.randomFromInterval(50, height - 50);
 
-    this.speed = 2 + Math.random();
+    this.speed = Math.random();
     this.headRotationAngle = Math.random() * 2 * Math.PI;
     this.rotateClockwise = true; 
 
@@ -470,7 +470,7 @@ export class Fish {
       this.speedY = -this.speedY;
       this.turnAngle = Math.atan2(this.speedY, this.speedX);
     } else if (this.turning) {
-      let turnAmountPerFrame = (5 * Math.PI) / 180;
+      let turnAmountPerFrame = (8 * Math.PI) / 180;
 
       if (this.headRotationAngle === this.turnAngle) {
         this.turning = false;
@@ -562,7 +562,7 @@ export class Fish {
       // Yes I know minus but remember its a canvas so + is backwards
       this.x -= this.speedX;
       this.y -= this.speedY;
-
+      
       this.tailOffset = this.calculateAnimationOffset(40, 7, false);
       this.finOffset = this.calculateAnimationOffset(20, 3, true);
       this.animationFrame++;
