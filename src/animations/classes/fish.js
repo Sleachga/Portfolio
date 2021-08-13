@@ -6,35 +6,21 @@ export class Fish {
     this.randomFromInterval = (min, max) =>
       Math.floor(Math.random() * (max - min + 1) + min);
 
-    this.x = this.randomFromInterval(50, width - 50);
-    this.y = this.randomFromInterval(50, height - 50);
+    // this.x = this.randomFromInterval(50, width - 50);
+    // this.y = this.randomFromInterval(50, height - 50);
+
+    this.x = width / 2;
+    this.y = height / 2;
 
     this.speed = 0.5 + Math.random() * 2;
     this.headRotationAngle = Math.random() * 2 * Math.PI;
-    this.rotateClockwise = true; 
+    this.rotateClockwise = true;
 
-    this.headRotationAngleDegs = (this.headRotationAngle * 180) / Math.PI; // For debug purposes
+    // this.headRotationAngleDegs = (this.headRotationAngle * 180) / Math.PI; // For debug purposes
+    this.headRotationAngle = (5 * Math.PI) / 4;
 
-    this.speedX = Math.abs(this.speed * Math.cos(this.headRotationAngle));
-    this.speedY = Math.abs(this.speed * Math.sin(this.headRotationAngle));
-
-    // Deal with weird case of when facing up right && bottom left... not sure why it happens
-    if (
-      (this.headRotationAngle > Math.PI / 2 &&
-        this.headRotationAngle < Math.PI) ||
-      (this.headRotationAngle > (3 * Math.PI) / 2 &&
-        this.headRotationAngle < 2 * Math.PI)
-    ) {
-      this.speedY = -this.speedY;
-    }
-
-    if (
-      Math.PI / 2 < this.headRotationAngle &&
-      this.headRotationAngle < (3 * Math.PI) / 2
-    ) {
-      this.speedX = -this.speedX;
-      this.speedY = -this.speedY;
-    }
+    this.speedX = this.speed * Math.cos(this.headRotationAngle);
+    this.speedY = this.speed * Math.sin(this.headRotationAngle);
 
     this.momentumX = 0;
     this.momentumY = 0;
@@ -488,8 +474,9 @@ export class Fish {
             turnAmountPerFrame = this.turnAngle - this.headRotationAngle;
           this.headRotationAngle += turnAmountPerFrame;
         } else if (left && movingDown) {
-          if (this.turnAngle < 0) this.turnAngle = this.turnAngle + (2 * Math.PI);
-          if (this.headRotationAngle < 0) this.headRotationAngle = this.headRotationAngle + (2 * Math.PI);
+          if (this.turnAngle < 0) this.turnAngle = this.turnAngle + 2 * Math.PI;
+          if (this.headRotationAngle < 0)
+            this.headRotationAngle = this.headRotationAngle + 2 * Math.PI;
           if (this.headRotationAngle - this.turnAngle < turnAmountPerFrame)
             turnAmountPerFrame = this.headRotationAngle - this.turnAngle;
           this.headRotationAngle -= turnAmountPerFrame;
@@ -498,7 +485,7 @@ export class Fish {
             turnAmountPerFrame = this.headRotationAngle - this.turnAngle;
           this.headRotationAngle -= turnAmountPerFrame;
         } else if (up && movingRight) {
-          if (this.turnAngle < 0) this.turnAngle = this.turnAngle + (2 * Math.PI);
+          if (this.turnAngle < 0) this.turnAngle = this.turnAngle + 2 * Math.PI;
           if (this.turnAngle - this.headRotationAngle < turnAmountPerFrame)
             turnAmountPerFrame = this.turnAngle - this.headRotationAngle;
           this.headRotationAngle += turnAmountPerFrame;
@@ -507,7 +494,7 @@ export class Fish {
             turnAmountPerFrame = this.headRotationAngle - this.turnAngle;
           this.headRotationAngle -= turnAmountPerFrame;
         } else if (right && movingDown) {
-          if (this.turnAngle < 0) this.turnAngle = this.turnAngle + (2 * Math.PI);
+          if (this.turnAngle < 0) this.turnAngle = this.turnAngle + 2 * Math.PI;
           if (this.turnAngle - this.headRotationAngle < turnAmountPerFrame)
             turnAmountPerFrame = this.turnAngle - this.headRotationAngle;
           this.headRotationAngle += turnAmountPerFrame;
@@ -515,20 +502,22 @@ export class Fish {
           if (this.headRotationAngle - this.turnAngle < turnAmountPerFrame)
             turnAmountPerFrame = this.headRotationAngle - this.turnAngle;
           this.headRotationAngle -= turnAmountPerFrame;
-        } else { // down and moving left
-          if (this.turnAngle < 2 * Math.PI) this.turnAngle += (2 * Math.PI);
-          if (this.headRotationAngle < (Math.PI / 2)) {
-            this.headRotationAngle += (2 * Math.PI);
+        } else {
+          // down and moving left
+          if (this.turnAngle < 2 * Math.PI) this.turnAngle += 2 * Math.PI;
+          if (this.headRotationAngle < Math.PI / 2) {
+            this.headRotationAngle += 2 * Math.PI;
           }
 
           // Special case just for here
-          if (this.headRotationAngle === this.turnAngle) {    
+          if (this.headRotationAngle === this.turnAngle) {
             this.turning = false;
-    
+
             // Move slightly away from edge at the end to avoid endless loops
             if (this.x <= 50) this.x = 50.001;
             if (this.y <= 50) this.y = 50.001;
-            if (this.x >= this.canvasWidth - 50) this.x = this.canvasWidth - 50.001;
+            if (this.x >= this.canvasWidth - 50)
+              this.x = this.canvasWidth - 50.001;
             if (this.y >= this.canvasHeight - 50)
               this.y = this.canvasHeight - 50.001;
           }
@@ -556,14 +545,14 @@ export class Fish {
     return distanceScale * (abs ? Math.abs(value) : value);
   }
 
-  doMovementLogic() {
+  doMovementLogic() {    
     this.doTurningLogic();
 
     if (!this.turning) {
       // Yes I know minus but remember its a canvas so + is backwards
       this.x -= this.speedX;
       this.y -= this.speedY;
-      
+
       this.tailOffset = this.calculateAnimationOffset(40, 7, false);
       this.finOffset = this.calculateAnimationOffset(20, 3, true);
       this.animationFrame++;
@@ -571,21 +560,31 @@ export class Fish {
   }
 
   doFoodLogic(food) {
-    if (this.chasingFood) {
+    if (this.chasingFood && this.turning) {
+      debugger;
+      console.log('TURNING TO DA FOOOD');
+    } else if (this.chasingFood){
+      debugger;
+      console.log('CHASING DA FOOOD');
+    }
+    else {
+      for (let f of food) {
+        const xDistance = f.x >= this.x ? f.x - this.x : this.x - f.x;
+        const yDistance = f.y >= this.y ? f.y - this.y : this.y - f.y;
+        if (Math.sqrt(xDistance * xDistance + yDistance * yDistance) < 200) {
+          this.turnAngle = Math.atan2(yDistance, xDistance);
+          if (this.speedX < 0) this.turnAngle = Math.PI - this.turnAngle;
+          if (this.speedY < 0) this.turnAngle = 2* Math.PI - this.turnAngle;
 
-    } else {
-      food.forEach((f) => {
-        const xDistance = f.x - this.x;
-        const yDistance = f.y - this.y;
-        if (Math.sqrt(xDistance*xDistance + yDistance*yDistance) < 200) {
-          console.log('here!');
+          this.chasingFood = true;
+          this.turning = true;
         }
-      });
+      }
     }
   }
 
   update(food) {
     this.doFoodLogic(food);
-    this.doMovementLogic();
+    if (!this.chasingFood) this.doMovementLogic();
   }
 }
