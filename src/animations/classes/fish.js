@@ -36,11 +36,12 @@ export class Fish {
       this.speedY = -this.speedY;
     }
 
-    // TODO: will eventually need this
     this.momentumX = 0;
     this.momentumY = 0;
 
     this.speed = Math.sqrt(this.speedX ** 2 + this.speedY ** 2);
+
+    this.chasingFood = false;
 
     this.animationFrame = Math.round(Math.random() * 100);
 
@@ -569,7 +570,22 @@ export class Fish {
     }
   }
 
-  update() {
+  doFoodLogic(food) {
+    if (this.chasingFood) {
+
+    } else {
+      food.forEach((f) => {
+        const xDistance = f.x - this.x;
+        const yDistance = f.y - this.y;
+        if (Math.sqrt(xDistance*xDistance + yDistance*yDistance) < 200) {
+          console.log('here!');
+        }
+      });
+    }
+  }
+
+  update(food) {
+    this.doFoodLogic(food);
     this.doMovementLogic();
   }
 }

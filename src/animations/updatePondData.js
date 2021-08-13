@@ -1,7 +1,7 @@
 const updatePondData = (pondData) => {
 
   const { fish, food, pads } = pondData;
-  fish.forEach(f => f.update(window.innerWidth, window.innerHeight));
+  fish.forEach(f => f.update(pondData.food));
   food.forEach(f => f.update(window.innerWidth, window.innerHeight));
   pads.forEach(p => p.update(window.innerWidth, window.innerHeight));
 };
