@@ -17,8 +17,12 @@ export class Fish {
     this.speedY = Math.abs(this.speed * Math.sin(this.headRotationAngle));
 
     // Deal with weird case of when facing up right && bottom left... not sure why it happens
-    if ((this.headRotationAngle > Math.PI / 2 && this.headRotationAngle < Math.PI) 
-        || ((this.headRotationAngle > 3 * Math.PI / 2 && this.headRotationAngle < 2 * Math.PI))) {
+    if (
+      (this.headRotationAngle > Math.PI / 2 &&
+        this.headRotationAngle < Math.PI) ||
+      (this.headRotationAngle > (3 * Math.PI) / 2 &&
+        this.headRotationAngle < 2 * Math.PI)
+    ) {
       this.speedY = -this.speedY;
     }
 
@@ -441,18 +445,16 @@ export class Fish {
 
   doTurningLogic() {
     // Figure out which wall is hit
-    if (this.x <= 50 || (this.x > this.canvasWidth - 50 && !this.turning)) {
-      debugger;
+    if ((this.x <= 50 || this.x > (this.canvasWidth - 50)) && !this.turning) {
       this.turning = true;
       this.speedX = -this.speedX;
       this.turnAngle = Math.atan2(this.speedY, this.speedX);
-    } else if (this.y < 50 || this.y > this.canvasHeight - 50 && !this.turning) {
-      debugger;
+    } else if ((this.y <= 50 || (this.y >= this.canvasHeight - 50)) && !this.turning) {
       this.turning = true;
       this.speedY = -this.speedY;
       this.turnAngle = Math.atan2(this.speedY, this.speedX);
     } else if (this.turning) {
-      let turnAmountPerFrame = 2 * (Math.PI / 180);
+      let turnAmountPerFrame = 1 * 180 / Math.PI;
 
       if (this.headRotationAngle < this.turnAngle) {
         if (this.turnAngle - this.headRotationAngle < turnAmountPerFrame)

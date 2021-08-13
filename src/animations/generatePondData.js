@@ -15,7 +15,7 @@ const generatePondData = (setPondData) => {
     pondData.pads.push(new Lilypad(width, height));
   }
 
-  for (let i = 0; i < 1; i++) {
+  for (let i = 0; i < 10; i++) {
     pondData.fish.push(new Fish(width, height));
   }
 
