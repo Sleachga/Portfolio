@@ -9,7 +9,7 @@ export class Fish {
     this.x = this.randomFromInterval(50, width - 50);
     this.y = this.randomFromInterval(50, height - 50);
 
-    this.speed = 1 + Math.random();
+    this.speed = 0.5 + Math.random() * 2;
     this.headRotationAngle = Math.random() * 2 * Math.PI;
     this.rotateClockwise = true; 
 

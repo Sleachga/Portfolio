@@ -5,6 +5,8 @@ import draw from '../animations/draw';
 import generatePondData from '../animations/generatePondData';
 import updatePondData from '../animations/updatePondData';
 
+import { Food } from '../animations/classes/food';
+
 import PropTypes from 'prop-types';
 
 const Canvas = styled.canvas`
@@ -33,12 +35,18 @@ const resize = (canvas) => {
 const CanvasComponent = ({ pondData, setPondData }) => {
   const ref = useRef();
 
+  window.addEventListener('click', (e) => {
+    if (pondData.fish.length > 0) {
+      console.log(pondData);
+      pondData.food.push(new Food(e.clientX, e.clientY));
+      setPondData(pondData);
+    }
+  });
+
   useEffect(() => {
     if (pondData.fish.length <= 1 && pondData.pads.length <= 1) {
       generatePondData(setPondData);
     }
-
-    console.log(pondData);
 
     let canvas = ref.current;
     let context = canvas.getContext('2d');
@@ -67,7 +75,7 @@ const CanvasComponent = ({ pondData, setPondData }) => {
 
 CanvasComponent.propTypes = {
   pondData: PropTypes.object,
-  setPondData: PropTypes.func
+  setPondData: PropTypes.func,
 };
 
 export default CanvasComponent;
