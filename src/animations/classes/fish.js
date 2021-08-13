@@ -9,8 +9,10 @@ export class Fish {
     this.x = this.randomFromInterval(50, width - 50);
     this.y = this.randomFromInterval(50, height - 50);
 
-    this.speed = 1 + Math.random();
+    this.speed = 2 + Math.random();
     this.headRotationAngle = Math.random() * 2 * Math.PI;
+    this.rotateClockwise = true; 
+
     this.headRotationAngleDegs = (this.headRotationAngle * 180) / Math.PI; // For debug purposes
 
     this.speedX = Math.abs(this.speed * Math.cos(this.headRotationAngle));
@@ -444,27 +446,33 @@ export class Fish {
   }
 
   doTurningLogic() {
+    const left = this.x <= 50;
+    const right = this.x >= this.canvasWidth - 50;
+    const up = this.y <= 50;
+    const down = this.y >= this.canvasHeight - 50;
+
+    const movingLeft = this.speedX > 0;
+    const movingRight = this.speedX <= 0;
+    const movingUp = this.speedY > 0;
+    const movingDown = this.speedY <= 0;
+
+    // Account for headRotationAngle being larger than 360deg
+    if (this.headRotationAngle > 2 * Math.PI)
+      this.headRotationAngle = this.headRotationAngle % (2 * Math.PI);
+
     // Figure out which wall is hit
-    if ((this.x <= 50 || this.x > (this.canvasWidth - 50)) && !this.turning) {
+    if ((left || right) && !this.turning) {
       this.turning = true;
       this.speedX = -this.speedX;
       this.turnAngle = Math.atan2(this.speedY, this.speedX);
-    } else if ((this.y <= 50 || (this.y >= this.canvasHeight - 50)) && !this.turning) {
+    } else if ((up || down) && !this.turning) {
       this.turning = true;
       this.speedY = -this.speedY;
       this.turnAngle = Math.atan2(this.speedY, this.speedX);
     } else if (this.turning) {
-      let turnAmountPerFrame = 1 * 180 / Math.PI;
+      let turnAmountPerFrame = (5 * Math.PI) / 180;
 
-      if (this.headRotationAngle < this.turnAngle) {
-        if (this.turnAngle - this.headRotationAngle < turnAmountPerFrame)
-          turnAmountPerFrame = this.turnAngle - this.headRotationAngle;
-        this.headRotationAngle += turnAmountPerFrame;
-      } else if (this.headRotationAngle > this.turnAngle) {
-        if (this.headRotationAngle - this.turnAngle < turnAmountPerFrame)
-          turnAmountPerFrame = this.headRotationAngle - this.turnAngle;
-        this.headRotationAngle -= turnAmountPerFrame;
-      } else {
+      if (this.headRotationAngle === this.turnAngle) {
         this.turning = false;
 
         // Move slightly away from edge at the end to avoid endless loops
@@ -473,6 +481,61 @@ export class Fish {
         if (this.x >= this.canvasWidth - 50) this.x = this.canvasWidth - 50.001;
         if (this.y >= this.canvasHeight - 50)
           this.y = this.canvasHeight - 50.001;
+      } else {
+        if (left && movingUp) {
+          if (this.turnAngle - this.headRotationAngle < turnAmountPerFrame)
+            turnAmountPerFrame = this.turnAngle - this.headRotationAngle;
+          this.headRotationAngle += turnAmountPerFrame;
+        } else if (left && movingDown) {
+          if (this.turnAngle < 0) this.turnAngle = this.turnAngle + (2 * Math.PI);
+          if (this.headRotationAngle < 0) this.headRotationAngle = this.headRotationAngle + (2 * Math.PI);
+          if (this.headRotationAngle - this.turnAngle < turnAmountPerFrame)
+            turnAmountPerFrame = this.headRotationAngle - this.turnAngle;
+          this.headRotationAngle -= turnAmountPerFrame;
+        } else if (up && movingLeft) {
+          if (this.headRotationAngle - this.turnAngle < turnAmountPerFrame)
+            turnAmountPerFrame = this.headRotationAngle - this.turnAngle;
+          this.headRotationAngle -= turnAmountPerFrame;
+        } else if (up && movingRight) {
+          if (this.turnAngle < 0) this.turnAngle = this.turnAngle + (2 * Math.PI);
+          if (this.turnAngle - this.headRotationAngle < turnAmountPerFrame)
+            turnAmountPerFrame = this.turnAngle - this.headRotationAngle;
+          this.headRotationAngle += turnAmountPerFrame;
+        } else if (right && movingUp) {
+          if (this.headRotationAngle - this.turnAngle < turnAmountPerFrame)
+            turnAmountPerFrame = this.headRotationAngle - this.turnAngle;
+          this.headRotationAngle -= turnAmountPerFrame;
+        } else if (right && movingDown) {
+          if (this.turnAngle < 0) this.turnAngle = this.turnAngle + (2 * Math.PI);
+          if (this.turnAngle - this.headRotationAngle < turnAmountPerFrame)
+            turnAmountPerFrame = this.turnAngle - this.headRotationAngle;
+          this.headRotationAngle += turnAmountPerFrame;
+        } else if (down && movingRight) {
+          if (this.headRotationAngle - this.turnAngle < turnAmountPerFrame)
+            turnAmountPerFrame = this.headRotationAngle - this.turnAngle;
+          this.headRotationAngle -= turnAmountPerFrame;
+        } else { // down and moving left
+          if (this.turnAngle < 2 * Math.PI) this.turnAngle += (2 * Math.PI);
+          if (this.headRotationAngle < (Math.PI / 2)) {
+            this.headRotationAngle += (2 * Math.PI);
+          }
+
+          // Special case just for here
+          if (this.headRotationAngle === this.turnAngle) {    
+            this.turning = false;
+    
+            // Move slightly away from edge at the end to avoid endless loops
+            if (this.x <= 50) this.x = 50.001;
+            if (this.y <= 50) this.y = 50.001;
+            if (this.x >= this.canvasWidth - 50) this.x = this.canvasWidth - 50.001;
+            if (this.y >= this.canvasHeight - 50)
+              this.y = this.canvasHeight - 50.001;
+          }
+
+          if (this.turnAngle - this.headRotationAngle < turnAmountPerFrame)
+            turnAmountPerFrame = this.turnAngle - this.headRotationAngle;
+          this.headRotationAngle += turnAmountPerFrame;
+        }
       }
     }
   }
