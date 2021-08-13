@@ -3,26 +3,33 @@ export class Fish {
     this.canvasWidth = width;
     this.canvasHeight = height;
 
-    this.randomFromInterval = (min, max) => Math.floor(Math.random() * (max - min + 1) + min);
+    this.randomFromInterval = (min, max) =>
+      Math.floor(Math.random() * (max - min + 1) + min);
 
     this.x = this.randomFromInterval(50, width - 50);
     this.y = this.randomFromInterval(50, height - 50);
-    
-    // this.speed = 1 + Math.random();
-    // this.headRotationAngle = Math.random() * 2 * Math.PI;
-    this.speed = 1;
-    this.headRotationAngle = Math.PI / 6; // 30 deg, expecting 120 deg or 7 Math.PI / 6
 
+    this.speed = 1 + Math.random();
+    this.headRotationAngle = Math.random() * 2 * Math.PI;
     this.headRotationAngleDegs = (this.headRotationAngle * 180) / Math.PI; // For debug purposes
-    
+
     this.speedX = Math.abs(this.speed * Math.cos(this.headRotationAngle));
     this.speedY = Math.abs(this.speed * Math.sin(this.headRotationAngle));
 
-    if (Math.PI / 2 < this.headRotationAngle && this.headRotationAngle < 3 * Math.PI / 2) {
+    // Deal with weird case of when facing up right && bottom left... not sure why it happens
+    if ((this.headRotationAngle > Math.PI / 2 && this.headRotationAngle < Math.PI) 
+        || ((this.headRotationAngle > 3 * Math.PI / 2 && this.headRotationAngle < 2 * Math.PI))) {
+      this.speedY = -this.speedY;
+    }
+
+    if (
+      Math.PI / 2 < this.headRotationAngle &&
+      this.headRotationAngle < (3 * Math.PI) / 2
+    ) {
       this.speedX = -this.speedX;
       this.speedY = -this.speedY;
     }
-    
+
     // TODO: will eventually need this
     this.momentumX = 0;
     this.momentumY = 0;
@@ -434,16 +441,37 @@ export class Fish {
 
   doTurningLogic() {
     // Figure out which wall is hit
-    if (this.x <= 50 || this.x > this.canvasWidth - 50 && !this.turning) {
+    if (this.x <= 50 || (this.x > this.canvasWidth - 50 && !this.turning)) {
+      debugger;
       this.turning = true;
       this.speedX = -this.speedX;
-      this.turnAngle = Math.atan2(this.speedY, this.speedX && !this.turning);
-    } else if (this.y < 50 || this.y > this.height - 50) {
+      this.turnAngle = Math.atan2(this.speedY, this.speedX);
+    } else if (this.y < 50 || this.y > this.canvasHeight - 50 && !this.turning) {
+      debugger;
       this.turning = true;
       this.speedY = -this.speedY;
       this.turnAngle = Math.atan2(this.speedY, this.speedX);
     } else if (this.turning) {
-      
+      let turnAmountPerFrame = 2 * (Math.PI / 180);
+
+      if (this.headRotationAngle < this.turnAngle) {
+        if (this.turnAngle - this.headRotationAngle < turnAmountPerFrame)
+          turnAmountPerFrame = this.turnAngle - this.headRotationAngle;
+        this.headRotationAngle += turnAmountPerFrame;
+      } else if (this.headRotationAngle > this.turnAngle) {
+        if (this.headRotationAngle - this.turnAngle < turnAmountPerFrame)
+          turnAmountPerFrame = this.headRotationAngle - this.turnAngle;
+        this.headRotationAngle -= turnAmountPerFrame;
+      } else {
+        this.turning = false;
+
+        // Move slightly away from edge at the end to avoid endless loops
+        if (this.x <= 50) this.x = 50.001;
+        if (this.y <= 50) this.y = 50.001;
+        if (this.x >= this.canvasWidth - 50) this.x = this.canvasWidth - 50.001;
+        if (this.y >= this.canvasHeight - 50)
+          this.y = this.canvasHeight - 50.001;
+      }
     }
   }
 
@@ -469,7 +497,7 @@ export class Fish {
       // Yes I know minus but remember its a canvas so + is backwards
       this.x -= this.speedX;
       this.y -= this.speedY;
-  
+
       this.tailOffset = this.calculateAnimationOffset(40, 7, false);
       this.finOffset = this.calculateAnimationOffset(20, 3, true);
       this.animationFrame++;
