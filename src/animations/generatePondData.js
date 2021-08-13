@@ -14,7 +14,7 @@ const generatePondData = (setPondData) => {
   let numObjects = window.innerWidth * window.innerHeight / 100000;
   if (numObjects > 10) numObjects = 10;
 
-  for (let i = 0; i < numObjects / 2; i++) {
+  for (let i = 0; i < numObjects * 2 / 3; i++) {
     pondData.pads.push(new Lilypad(width, height));
   }
 
