@@ -8,7 +8,7 @@ import { faWrench } from '@fortawesome/free-solid-svg-icons';
 const Challenges = () => {
   return (
     <Layout page='challenges' pageTitle='Coding Challenges'>
-      <p>In construction <FontAwesomeIcon icon={faWrench} /></p>
+      <p>Under construction <FontAwesomeIcon icon={faWrench} /></p>
     </Layout>
   );
 };

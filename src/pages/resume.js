@@ -10,7 +10,7 @@ const Resume = () => {
   return (
     <Layout page="resume" pageTitle="Resumé">
       <p>
-        In construction <FontAwesomeIcon icon={faWrench} />
+        Under construction <FontAwesomeIcon icon={faWrench} />
       </p>
     </Layout>
   );
