@@ -18,6 +18,7 @@ const Container = styled.div`
   background: rgba(255, 255, 255, 0.8);
   position: relative;
   z-index: 5;
+  padding-bottom: 10px;
 `;
 
 const Heading = styled.h1`
