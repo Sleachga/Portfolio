@@ -37,6 +37,7 @@ const CanvasComponent = ({ pondData, setPondData }) => {
 
   window.addEventListener('click', (e) => {
     if (pondData.fish.length > 0) {
+      e.stopImmediatePropagation();
       pondData.food.push(new Food(e.clientX, e.clientY));
       setPondData(pondData);
     }

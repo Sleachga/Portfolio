@@ -6,6 +6,7 @@ export class Food {
     this.speedY = (Math.random() - 0.5) * 0.1;
     this.radius = 5;
     this.color = '#EEEE81';
+    this.id = Math.random() * 10;
   }
 
   draw(context) {

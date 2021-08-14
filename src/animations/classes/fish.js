@@ -6,18 +6,18 @@ export class Fish {
     this.randomFromInterval = (min, max) =>
       Math.floor(Math.random() * (max - min + 1) + min);
 
-    // this.x = this.randomFromInterval(50, width - 50);
-    // this.y = this.randomFromInterval(50, height - 50);
+    this.x = this.randomFromInterval(50, width - 50);
+    this.y = this.randomFromInterval(50, height - 50);
 
-    this.x = width / 2;
-    this.y = height / 2;
+    // this.x = width / 2;
+    // this.y = height / 2;
 
     this.speed = 0.5 + Math.random() * 2;
     this.headRotationAngle = Math.random() * 2 * Math.PI;
     this.rotateClockwise = true;
 
     // this.headRotationAngleDegs = (this.headRotationAngle * 180) / Math.PI; // For debug purposes
-    this.headRotationAngle = (5 * Math.PI) / 4;
+    // this.headRotationAngle = (7 * Math.PI) / 4;
 
     this.speedX = this.speed * Math.cos(this.headRotationAngle);
     this.speedY = this.speed * Math.sin(this.headRotationAngle);
@@ -545,7 +545,7 @@ export class Fish {
     return distanceScale * (abs ? Math.abs(value) : value);
   }
 
-  doMovementLogic() {    
+  doMovementLogic() {
     this.doTurningLogic();
 
     if (!this.turning) {
@@ -559,22 +559,57 @@ export class Fish {
     }
   }
 
-  doFoodLogic(food) {
+  doFoodLogic(pondData, setPondData) {
+    let { food } = pondData;
     if (this.chasingFood && this.turning) {
-      debugger;
-      console.log('TURNING TO DA FOOOD');
-    } else if (this.chasingFood){
-      debugger;
-      console.log('CHASING DA FOOOD');
-    }
-    else {
+      let turnAmountPerFrame = (12 * Math.PI) / 180;
+      if (this.turnAngle > this.headRotationAngle) {
+        if (this.turnAngle - this.headRotationAngle < turnAmountPerFrame)
+          turnAmountPerFrame = this.turnAngle - this.headRotationAngle;
+        this.headRotationAngle += turnAmountPerFrame;
+      } else if (this.headRotationAngle > this.turnAngle) {
+        if (this.headRotationAngle - this.turnAngle < turnAmountPerFrame)
+          turnAmountPerFrame = this.headRotationAngle - this.turnAngle;
+        this.headRotationAngle -= turnAmountPerFrame;
+      } else {
+        // They are equal
+        this.turning = false;
+        this.speedX = this.speed * Math.cos(this.headRotationAngle);
+        this.speedY = this.speed * Math.sin(this.headRotationAngle);
+      }
+    } else if (this.chasingFood) {
+      const foodChasing = food.find((f) => f.id === this.foodChasingID);
+      if (!foodChasing) {
+        this.chasingFood = false;
+      } else {
+        const xDistance = this.x - foodChasing.x;
+        const yDistance = this.y - foodChasing.y;
+  
+        if (Math.sqrt(xDistance * xDistance + yDistance * yDistance) < 5) {
+          const index = food.findIndex(f => f.id === this.foodChasingID);
+          food.splice(index, 1);
+          setPondData({...pondData, food});
+        }
+
+        this.x -= this.speedX;
+        this.y -= this.speedY;
+
+        this.tailOffset = this.calculateAnimationOffset(40, 7, false);
+        this.finOffset = this.calculateAnimationOffset(20, 3, true);
+        this.animationFrame++;
+      }
+    } else {
       for (let f of food) {
-        const xDistance = f.x >= this.x ? f.x - this.x : this.x - f.x;
-        const yDistance = f.y >= this.y ? f.y - this.y : this.y - f.y;
+        const xDistance = this.x - f.x;
+        const yDistance = this.y - f.y;
         if (Math.sqrt(xDistance * xDistance + yDistance * yDistance) < 200) {
+          this.foodChasingID = f.id;
+
           this.turnAngle = Math.atan2(yDistance, xDistance);
-          if (this.speedX < 0) this.turnAngle = Math.PI - this.turnAngle;
-          if (this.speedY < 0) this.turnAngle = 2* Math.PI - this.turnAngle;
+
+          if (this.turnAngle < 0) {
+            this.turnAngle += 2 * Math.PI;
+          }
 
           this.chasingFood = true;
           this.turning = true;
@@ -583,8 +618,8 @@ export class Fish {
     }
   }
 
-  update(food) {
-    this.doFoodLogic(food);
+  update(pondData, setPondData) {
+    this.doFoodLogic(pondData, setPondData);
     if (!this.chasingFood) this.doMovementLogic();
   }
 }
