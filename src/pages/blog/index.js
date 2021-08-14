@@ -2,6 +2,9 @@ import * as React from 'react';
 import { Link, graphql } from 'gatsby';
 import Layout from '../../components/layout';
 
+// Add tags
+// Add navigation by year/month
+
 const BlogPage = ({ data }) => {
   return (
     <Layout page="blog" pageTitle="Blog Posts">

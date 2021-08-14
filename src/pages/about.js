@@ -50,7 +50,8 @@ const AboutPage = () => {
 
   return (
     <Layout wide page="about" pageTitle="About Me">
-      <VerticalTimeline layout='1-column-left'>
+      {/* Make this not white */}
+      <VerticalTimeline> 
         <VerticalTimelineElement
           contentStyle={contentStyle}
           contentArrowStyle={{ borderRight: '7px solid  #199615' }}
