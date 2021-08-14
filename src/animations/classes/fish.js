@@ -25,8 +25,6 @@ export class Fish {
     this.momentumX = 0;
     this.momentumY = 0;
 
-    this.speed = Math.sqrt(this.speedX ** 2 + this.speedY ** 2);
-
     this.chasingFood = false;
 
     this.animationFrame = Math.round(Math.random() * 100);
@@ -66,6 +64,93 @@ export class Fish {
     this.body = {};
     this.tail = {};
     this.fins = {};
+
+    this.doMovementLogic = () => {
+      this.doTurningLogic();
+  
+      if (!this.turning) {
+        // Yes I know minus but remember its a canvas so + is backwards
+        this.x -= this.speedX;
+        this.y -= this.speedY;
+  
+        this.tailOffset = this.calculateAnimationOffset(40, 7, false);
+        this.finOffset = this.calculateAnimationOffset(20, 3, true);
+        this.animationFrame++;
+      }
+    };
+
+    this.doFoodLogic = (pondData, setPondData) => {
+      let { food } = pondData;
+      if (this.chasingFood && this.turning) {
+        let turnAmountPerFrame = (12 * Math.PI) / 180;
+        if (this.turnAngle > this.headRotationAngle) {
+          if (this.turnAngle - this.headRotationAngle < turnAmountPerFrame)
+            turnAmountPerFrame = this.turnAngle - this.headRotationAngle;
+          this.headRotationAngle += turnAmountPerFrame;
+        } else if (this.headRotationAngle > this.turnAngle) {
+          if (this.headRotationAngle - this.turnAngle < turnAmountPerFrame)
+            turnAmountPerFrame = this.headRotationAngle - this.turnAngle;
+          this.headRotationAngle -= turnAmountPerFrame;
+        } else {
+          // They are equal
+          this.turning = false;
+          this.speedX = this.speed * Math.cos(this.headRotationAngle);
+          this.speedY = this.speed * Math.sin(this.headRotationAngle);
+        }
+      } else if (this.chasingFood) {
+        const foodChasing = food.find((f) => f.id === this.foodChasingID);
+        if (!foodChasing) {
+          this.chasingFood = false;
+        } else {
+          const xDistance = this.x - foodChasing.x;
+          const yDistance = this.y - foodChasing.y;
+    
+          if (Math.sqrt(xDistance * xDistance + yDistance * yDistance) < 5) {
+            const index = food.findIndex(f => f.id === this.foodChasingID);
+            food.splice(index, 1);
+            setPondData({...pondData, food});
+          }
+  
+          this.x -= this.speedX;
+          this.y -= this.speedY;
+  
+          this.tailOffset = this.calculateAnimationOffset(40, 7, false);
+          this.finOffset = this.calculateAnimationOffset(20, 3, true);
+          this.animationFrame++;
+        }
+      } else {
+        // Find closest
+        const foodDistances = food.map((f, i) => {
+          const xDistance = this.x - f.x;
+          const yDistance = this.y - f.y;
+          return { distance: Math.sqrt(xDistance * xDistance + yDistance * yDistance), i};
+        }).sort();
+  
+        if (foodDistances.length > 0) {
+          const f = food[foodDistances[0].i];
+  
+          const xDistance = this.x - f.x;
+          const yDistance = this.y - f.y;
+          if (Math.sqrt(xDistance * xDistance + yDistance * yDistance) < 200) {
+            this.foodChasingID = f.id;
+  
+            this.turnAngle = Math.atan2(yDistance, xDistance);
+  
+            if (this.turnAngle < 0) {
+              this.turnAngle += 2 * Math.PI;
+            }
+  
+            this.chasingFood = true;
+            this.turning = true;
+          }
+        }
+      }
+    };
+
+    this.update = (pondData, setPondData) => {
+      this.doFoodLogic(pondData, setPondData);
+      if (!this.chasingFood) this.doMovementLogic();
+    };
   }
 
   /**
@@ -543,83 +628,5 @@ export class Fish {
   calculateAnimationOffset(speed, distanceScale, abs) {
     const value = Math.cos((Math.PI * this.animationFrame) / speed); // The larger tailSpeed is, the slower fish swims
     return distanceScale * (abs ? Math.abs(value) : value);
-  }
-
-  doMovementLogic() {
-    this.doTurningLogic();
-
-    if (!this.turning) {
-      // Yes I know minus but remember its a canvas so + is backwards
-      this.x -= this.speedX;
-      this.y -= this.speedY;
-
-      this.tailOffset = this.calculateAnimationOffset(40, 7, false);
-      this.finOffset = this.calculateAnimationOffset(20, 3, true);
-      this.animationFrame++;
-    }
-  }
-
-  doFoodLogic(pondData, setPondData) {
-    let { food } = pondData;
-    if (this.chasingFood && this.turning) {
-      let turnAmountPerFrame = (12 * Math.PI) / 180;
-      if (this.turnAngle > this.headRotationAngle) {
-        if (this.turnAngle - this.headRotationAngle < turnAmountPerFrame)
-          turnAmountPerFrame = this.turnAngle - this.headRotationAngle;
-        this.headRotationAngle += turnAmountPerFrame;
-      } else if (this.headRotationAngle > this.turnAngle) {
-        if (this.headRotationAngle - this.turnAngle < turnAmountPerFrame)
-          turnAmountPerFrame = this.headRotationAngle - this.turnAngle;
-        this.headRotationAngle -= turnAmountPerFrame;
-      } else {
-        // They are equal
-        this.turning = false;
-        this.speedX = this.speed * Math.cos(this.headRotationAngle);
-        this.speedY = this.speed * Math.sin(this.headRotationAngle);
-      }
-    } else if (this.chasingFood) {
-      const foodChasing = food.find((f) => f.id === this.foodChasingID);
-      if (!foodChasing) {
-        this.chasingFood = false;
-      } else {
-        const xDistance = this.x - foodChasing.x;
-        const yDistance = this.y - foodChasing.y;
-  
-        if (Math.sqrt(xDistance * xDistance + yDistance * yDistance) < 5) {
-          const index = food.findIndex(f => f.id === this.foodChasingID);
-          food.splice(index, 1);
-          setPondData({...pondData, food});
-        }
-
-        this.x -= this.speedX;
-        this.y -= this.speedY;
-
-        this.tailOffset = this.calculateAnimationOffset(40, 7, false);
-        this.finOffset = this.calculateAnimationOffset(20, 3, true);
-        this.animationFrame++;
-      }
-    } else {
-      for (let f of food) {
-        const xDistance = this.x - f.x;
-        const yDistance = this.y - f.y;
-        if (Math.sqrt(xDistance * xDistance + yDistance * yDistance) < 200) {
-          this.foodChasingID = f.id;
-
-          this.turnAngle = Math.atan2(yDistance, xDistance);
-
-          if (this.turnAngle < 0) {
-            this.turnAngle += 2 * Math.PI;
-          }
-
-          this.chasingFood = true;
-          this.turning = true;
-        }
-      }
-    }
-  }
-
-  update(pondData, setPondData) {
-    this.doFoodLogic(pondData, setPondData);
-    if (!this.chasingFood) this.doMovementLogic();
   }
 }
