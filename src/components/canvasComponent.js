@@ -35,15 +35,12 @@ const resize = (canvas) => {
 const CanvasComponent = ({ pondData, setPondData }) => {
   const ref = useRef();
 
-  
   useEffect(() => {
     window.addEventListener('click', (e) => {
       if (pondData.fish.length > 0) {
         e.stopImmediatePropagation();
-        if (pondData.food.length < pondData.fish.length) {
-          pondData.food.push(new Food(e.clientX, e.clientY));
-          setPondData(pondData);
-        }
+        pondData.food.push(new Food(e.clientX, e.clientY));
+        setPondData(pondData);
       }
     });
 
