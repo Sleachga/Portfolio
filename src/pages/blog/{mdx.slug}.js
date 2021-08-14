@@ -6,7 +6,7 @@ import Layout from '../../components/layout';
 const BlogPost = ({ data }) => {
   // highlight-line
   return (
-    <Layout page="blog-post" pageTitle={data.mdx.frontmatter.title}>
+    <Layout wide page="blog-post" pageTitle={data.mdx.frontmatter.title}>
       <p>{data.mdx.frontmatter.date}</p>
       <MDXRenderer>{data.mdx.body}</MDXRenderer>
     </Layout>

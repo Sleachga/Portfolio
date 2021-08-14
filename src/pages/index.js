@@ -6,9 +6,6 @@ import styled from 'styled-components';
 import './css/fonts.css';
 import './css/global.css';
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowUp } from '@fortawesome/free-solid-svg-icons';
-
 import Typewriter from 'typewriter-effect';
 
 const Container = styled.div`
@@ -45,7 +42,7 @@ const IndexPage = () => {
         </Container>
       </div>
       <p>
-        Click on the links above <FontAwesomeIcon icon={faArrowUp} /> to learn
+        Click on the links above to learn
         more about me (or feed the fish)
       </p>
       <div style={{ marginBottom: '10px' }}>

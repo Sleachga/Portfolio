@@ -9,7 +9,7 @@ import PropTypes from 'prop-types';
 
 const Container = styled.div`
   margin: auto;
-  max-width: ${props => props.page === 'blog-post' ? '700px' : '500px'};
+  max-width: ${props => props.wide ? '700px' : '500px'};
   font-family: sans-serif;
   height: 100%;
   border-radius: 30px;
@@ -61,11 +61,11 @@ const NavLinkText = styled((props) => <Link {...props} />)`
 // Also add color themes
 // Save selection in local storage
 
-const Layout = ({ pageTitle, children, page }) => {
+const Layout = ({ pageTitle, children, page, wide }) => {
   return (
     <div>
       <CanvasContainer />
-      <Container page={page}>
+      <Container wide={wide} page={page}>
         <title>{pageTitle}</title>
         <nav>
           <Navlinks>
@@ -117,6 +117,7 @@ Layout.propTypes = {
     PropTypes.node,
   ]),
   page: PropTypes.string,
+  wide: PropTypes.bool
 };
 
 export default Layout;
