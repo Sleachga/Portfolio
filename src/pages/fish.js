@@ -92,7 +92,10 @@ const HelpModal = ({ helpShowing, setHelpShowing }) => {
           </a>
         </p>
       </div>
-      <CloseButton onClick={() => setHelpShowing(!helpShowing)}>
+      <CloseButton onClick={(e) => {
+        e.stopPropagation();
+        setHelpShowing(!helpShowing);
+      }}>
         <FontAwesomeIcon icon={faTimesCircle} />
       </CloseButton>
       <HelpModalTriangle />
@@ -110,7 +113,10 @@ const Challenges = () => {
       )}
 
       <HelpButton
-        onClick={() => setHelpShowing(true)}
+        onClick={(e) => {
+          e.stopPropagation();
+          setHelpShowing(true);
+        }}
         className="animate__animated animate__wobble"
       >
         <FontAwesomeIcon size="2x" icon={faQuestionCircle} />

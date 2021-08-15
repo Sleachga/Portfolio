@@ -37,6 +37,9 @@ const CanvasComponent = ({ pondData, setPondData }) => {
 
   useEffect(() => {
     window.addEventListener('click', (e) => {
+      if (e.clientX < 51 || e.clientX > window.innerWidth - 51) return;
+      if (e.clientY < 51 || e.clientY > window.innerHeight - 51) return;
+
       if (pondData.fish.length > 0) {
         e.stopImmediatePropagation();
         pondData.food.push(new Food(e.clientX, e.clientY));
