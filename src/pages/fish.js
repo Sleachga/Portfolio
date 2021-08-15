@@ -9,6 +9,8 @@ import {
   faTimesCircle,
 } from '@fortawesome/free-solid-svg-icons';
 
+import PropTypes from 'prop-types';
+
 import 'animate.css';
 
 const HelpButton = styled.div`
@@ -102,6 +104,11 @@ const HelpModal = ({ helpShowing, setHelpShowing }) => {
       <HelpModalTriangle />
     </HelpModalContainer>
   );
+};
+
+HelpModal.propTypes = {
+  helpShowing: PropTypes.bool,
+  setHelpShowing: PropTypes.func
 };
 
 const Challenges = () => {
