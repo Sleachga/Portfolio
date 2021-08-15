@@ -91,6 +91,7 @@ const HelpModal = ({ helpShowing, setHelpShowing }) => {
             twitter.
           </a>
         </p>
+        <p></p>
       </div>
       <CloseButton onClick={(e) => {
         e.stopPropagation();
@@ -115,7 +116,7 @@ const Challenges = () => {
       <HelpButton
         onClick={(e) => {
           e.stopPropagation();
-          setHelpShowing(true);
+          setHelpShowing(!helpShowing);
         }}
         className="animate__animated animate__wobble"
       >
