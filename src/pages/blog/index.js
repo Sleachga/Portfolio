@@ -8,12 +8,13 @@ import Layout from '../../components/layout';
 const BlogPage = ({ data }) => {
   return (
     <Layout page="blog" pageTitle="Blog Posts">
-      {data.allMdx.nodes.map((node) => (
+      {data.allMdx.nodes.map((node, i) => (
         <article key={node.id}>
           <h2>
             <Link to={`/blog/${node.slug}`}>{node.frontmatter.title}</Link>
           </h2>
           <p>Posted: {node.frontmatter.date}</p>
+          {i < data.allMdx.nodes.length - 1 && <hr />}
         </article>
       ))}
     </Layout>
