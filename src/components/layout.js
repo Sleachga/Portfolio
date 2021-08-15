@@ -90,11 +90,11 @@ const Layout = ({ pageTitle, children, page, wide }) => {
                 Blog
               </NavLinkText>
             </NavlinkItem>
-            <NavlinkItem>
+            {/* <NavlinkItem>
               <NavLinkText selected={page === 'challenges'} to="/challenges">
                 Challenges
               </NavLinkText>
-            </NavlinkItem>
+            </NavlinkItem> */}
             <NavlinkItem last>
               <NavLinkText selected={page === 'fish'} to="/fish">
                 Feed the Fish

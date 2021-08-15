@@ -1,18 +1,19 @@
 import * as React from 'react';
 import Layout from '../components/layout';
+import ImageSlider from '../components/ImageSlider';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faBaby,
   faSchool,
   faPaw,
-  faVideo,
+  faBriefcase,
   faHandshake,
   faChalkboardTeacher,
-  faBolt,
+  faUtensils,
+  faGraduationCap,
+  faBicycle
 } from '@fortawesome/free-solid-svg-icons';
-
-import { StaticImage } from 'gatsby-plugin-image';
 
 import styled from 'styled-components';
 
@@ -21,6 +22,7 @@ import {
   VerticalTimelineElement,
 } from 'react-vertical-timeline-component';
 import 'react-vertical-timeline-component/style.min.css';
+import { StaticImage } from 'gatsby-plugin-image';
 
 const Header = styled.h3`
   margin: 0;
@@ -51,14 +53,12 @@ const AboutPage = () => {
   return (
     <Layout wide page="about" pageTitle="About Me">
       {/* Make this not white */}
-      <VerticalTimeline> 
+      <VerticalTimeline>
         <VerticalTimelineElement
           contentStyle={contentStyle}
           contentArrowStyle={{ borderRight: '7px solid  #199615' }}
           iconStyle={iconStyle}
-          icon={
-            <FontAwesomeIcon size={'fa-lg'} icon={faVideo} className="icon" />
-          }
+          icon={<FontAwesomeIcon icon={faBriefcase} className="icon" />}
         >
           <Header>Senior Developer</Header>
           <SubHeader>Atlanta, GA - February 2021</SubHeader>
@@ -66,34 +66,44 @@ const AboutPage = () => {
             <ExternalLink target="_blank" href="https://www.warnermedia.com/us">
               WarnerMedia
             </ExternalLink>{' '}
-            promoted me to Senior Systems/Software Developer. I became more
-            involved in the design and planning of our applications and
-            spearhead our team internship program.
+            promoted me to Senior Systems/Software Developer.
+          </p>
+          <p>
+            I became more involved in the design and planning of our
+            applications and spearhead our team internship program.
           </p>
         </VerticalTimelineElement>
         <VerticalTimelineElement
           contentStyle={contentStyle}
           contentArrowStyle={{ borderRight: '7px solid  #199615' }}
           iconStyle={iconStyle}
-          icon={
-            <FontAwesomeIcon size={'fa-lg'} icon={faVideo} className="icon" />
-          }
+          icon={<FontAwesomeIcon icon={faPaw} className="icon" />}
         >
           <Header>Adopted Morty</Header>
           <SubHeader>Atlanta, GA - September 2020</SubHeader>
           <p></p>
-          <StaticImage
-            alt="Me and Morty"
-            src="../images/morty1.jpeg"
-          />
+          <ImageSlider numImages={3} tag="morty" />
         </VerticalTimelineElement>
         <VerticalTimelineElement
           contentStyle={contentStyle}
           contentArrowStyle={{ borderRight: '7px solid  #199615' }}
           iconStyle={iconStyle}
-          icon={
-            <FontAwesomeIcon size={'fa-lg'} icon={faVideo} className="icon" />
-          }
+          icon={<FontAwesomeIcon icon={faUtensils} className="icon" />}
+        >
+          <Header>Started Cooking</Header>
+          <SubHeader>Atlanta, GA - Summer 2020</SubHeader>
+          <p>
+            Discovered my passion for cooking after being forced to cook for
+            myself every day due to COVID-19
+          </p>
+          <p></p>
+          <ImageSlider numImages={3} tag="food" />
+        </VerticalTimelineElement>
+        <VerticalTimelineElement
+          contentStyle={contentStyle}
+          contentArrowStyle={{ borderRight: '7px solid  #199615' }}
+          iconStyle={iconStyle}
+          icon={<FontAwesomeIcon icon={faBriefcase} className="icon" />}
         >
           <Header>Junior Developer</Header>
           <SubHeader>Atlanta, GA - End of 2019</SubHeader>
@@ -101,127 +111,43 @@ const AboutPage = () => {
             <ExternalLink target="_blank" href="https://www.warnermedia.com/us">
               WarnerMedia
             </ExternalLink>{' '}
-            hired me full-time as a Junior Systems/Software Developer. I
-            started using AWS and improveed my ReactJS and NodeJS skill.
+            hired me full-time as a Junior Systems/Software Developer. I started
+            using AWS and improveed my ReactJS and NodeJS skill.
           </p>
         </VerticalTimelineElement>
         <VerticalTimelineElement
           contentStyle={contentStyle}
           contentArrowStyle={{ borderRight: '7px solid  #199615' }}
           iconStyle={iconStyle}
-          icon={
-            <FontAwesomeIcon size={'fa-lg'} icon={faVideo} className="icon" />
-          }
+          icon={<FontAwesomeIcon icon={faBicycle} className="icon" />}
         >
-          <Header>WarnerMedia Internship II</Header>
+          <Header>Started Cycling</Header>
           <SubHeader>Atlanta, GA - Summer 2019</SubHeader>
-          <p>
-            Started my second internship with{' '}
-            <ExternalLink target="_blank" href="https://www.warnermedia.com/us">
-              WarnerMedia
-            </ExternalLink>{' '}
-            (formerly Turner Broadcasting) as a Web Development Intern in the
-            Media Supply Chain Organization. Rebuilt the front-end for the
-            internal WarnerMedia application that keeps track of all movies and
-            episodes that have aired on a Turner TV Broadcast or Streaming
-            Service.
-          </p>
+          <p>Discovered my love for cycling.</p>
+          <p></p>
+          <StaticImage
+            alt="bicycle in the grass"
+            src="../images/bicycle1.jpeg"
+          />
         </VerticalTimelineElement>
         <VerticalTimelineElement
           contentStyle={contentStyle}
           contentArrowStyle={{ borderRight: '7px solid  #199615' }}
           iconStyle={iconStyle}
-          icon={
-            <FontAwesomeIcon size={'fa-lg'} icon={faBolt} className="icon" />
-          }
+          icon={<FontAwesomeIcon icon={faGraduationCap} className="icon" />}
         >
-          <Header>Partner Software Internship II</Header>
-          <SubHeader>Athens, GA - End of 2018 and Start of 2019</SubHeader>
-          <p>
-            Started my second internship with{' '}
-            <ExternalLink
-              target="_blank"
-              href="https://www.partnersoftware.com/"
-            >
-              Partner Software
-            </ExternalLink>{' '}
-            Developed a feature that bundles up the applications logs and sends
-            them to a company slack channel on application crash. With this
-            improved system, we no longer needed to coordinate with clients to
-            find out why their app crashed and we were able to fix bugs 3x-4x
-            faster in most cases.
-          </p>
+          <Header>Graduated College</Header>
+          <SubHeader>Athens, GA - Summer 2019</SubHeader>
         </VerticalTimelineElement>
         <VerticalTimelineElement
           contentStyle={contentStyle}
           contentArrowStyle={{ borderRight: '7px solid  #199615' }}
           iconStyle={iconStyle}
-          icon={
-            <FontAwesomeIcon size={'fa-lg'} icon={faVideo} className="icon" />
-          }
-        >
-          <Header>Turner Broadcasting Internship I</Header>
-          <SubHeader>Atlanta, GA - Summer 2018</SubHeader>
-          <p>
-            Started my first internship with{' '}
-            <ExternalLink target="_blank" href="https://www.warnermedia.com/us">
-              Turner Broadcasting
-            </ExternalLink>{' '}
-            as a Web Development Intern in the Global Technology Organization.
-          </p>
-          <p>
-            This is when I got my first taste of web development. I learned how
-            to navigate my way around a professional codebase and strengthened
-            my HTML, CSS, and JavaScript skills.
-          </p>
-        </VerticalTimelineElement>
-        <VerticalTimelineElement
-          contentStyle={contentStyle}
-          contentArrowStyle={{ borderRight: '7px solid  #199615' }}
-          iconStyle={iconStyle}
-          icon={
-            <FontAwesomeIcon size={'fa-lg'} icon={faBolt} className="icon" />
-          }
-        >
-          <Header>Partner Software Internship I</Header>
-          <SubHeader>Athens, GA - 2018</SubHeader>
-          <p>
-            Started my first internship with{' '}
-            <ExternalLink
-              target="_blank"
-              href="https://www.partnersoftware.com/"
-            >
-              Partner Software
-            </ExternalLink>{' '}
-            as a Development Intern.
-          </p>
-          <p>
-            Got my first taste of working in an Agile environment, migrated code
-            from depreciated bean shell scripts to modern Java classes for
-            improved maintainability and improved the UI for electrical grid
-            mapping system.
-          </p>
-          <p>
-            Made some of my best computer science friends here and learned what
-            it&apos;s like to do computer science professionally
-          </p>
-        </VerticalTimelineElement>
-        <VerticalTimelineElement
-          contentStyle={contentStyle}
-          contentArrowStyle={{ borderRight: '7px solid  #199615' }}
-          iconStyle={iconStyle}
-          icon={
-            <FontAwesomeIcon
-              size={'fa-lg'}
-              icon={faChalkboardTeacher}
-              className="icon"
-            />
-          }
+          icon={<FontAwesomeIcon icon={faChalkboardTeacher} className="icon" />}
         >
           <Header>Kids 4 Coding</Header>
           <SubHeader>Lawrenceville, GA - Summer 2017</SubHeader>
           <p>
-            Joined{' '}
             <ExternalLink target="_blank" href="https://www.kids4coding.com/">
               Kids 4 Coding
             </ExternalLink>{' '}
@@ -241,13 +167,7 @@ const AboutPage = () => {
           contentStyle={contentStyle}
           contentArrowStyle={{ borderRight: '7px solid  #199615' }}
           iconStyle={iconStyle}
-          icon={
-            <FontAwesomeIcon
-              size={'fa-lg'}
-              icon={faHandshake}
-              className="icon"
-            />
-          }
+          icon={<FontAwesomeIcon icon={faHandshake} className="icon" />}
         >
           <Header>Joined Tau Epsilon Phi Fraternity</Header>
           <SubHeader>Athens, GA - 2015</SubHeader>
@@ -269,9 +189,7 @@ const AboutPage = () => {
           contentStyle={contentStyle}
           contentArrowStyle={{ borderRight: '7px solid  #199615' }}
           iconStyle={iconStyle}
-          icon={
-            <FontAwesomeIcon size={'fa-lg'} icon={faPaw} className="icon" />
-          }
+          icon={<FontAwesomeIcon icon={faSchool} className="icon" />}
         >
           <Header>College</Header>
           <SubHeader>Athens, GA - 2015</SubHeader>
@@ -293,9 +211,7 @@ const AboutPage = () => {
           contentStyle={contentStyle}
           contentArrowStyle={{ borderRight: '7px solid  #199615' }}
           iconStyle={iconStyle}
-          icon={
-            <FontAwesomeIcon size={'fa-lg'} icon={faSchool} className="icon" />
-          }
+          icon={<FontAwesomeIcon icon={faSchool} className="icon" />}
         >
           <Header>Highschool</Header>
           <SubHeader>Atlanta, GA</SubHeader>
@@ -309,9 +225,7 @@ const AboutPage = () => {
           contentStyle={contentStyle}
           contentArrowStyle={{ borderRight: '7px solid  #199615' }}
           iconStyle={iconStyle}
-          icon={
-            <FontAwesomeIcon size={'fa-lg'} icon={faBaby} className="icon" />
-          }
+          icon={<FontAwesomeIcon icon={faBaby} className="icon" />}
         >
           <Header>Birth</Header>
           <SubHeader>March 26, Atlanta, GA</SubHeader>

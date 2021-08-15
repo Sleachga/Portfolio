@@ -6,7 +6,7 @@ import { StaticImage } from 'gatsby-plugin-image';
 const Resume = () => {
   return (
     <Layout wide page="resume" pageTitle="Resumé">
-      <StaticImage src="../images/resume.png"/>
+      <StaticImage src="../resume/resume.png"/>
     </Layout>
   );
 };
