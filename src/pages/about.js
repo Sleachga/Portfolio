@@ -213,7 +213,7 @@ const AboutPage = () => {
           iconStyle={iconStyle}
           icon={<FontAwesomeIcon icon={faSchool} className="icon" />}
         >
-          <Header>Highschool</Header>
+          <Header>High School</Header>
           <SubHeader>Atlanta, GA</SubHeader>
           <p>Highschool is when I first started learning HTML and CSS. </p>
           <p>

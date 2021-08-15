@@ -9,15 +9,9 @@ export class Fish {
     this.x = this.randomFromInterval(50, width - 50);
     this.y = this.randomFromInterval(50, height - 50);
 
-    // this.x = width / 2;
-    // this.y = height / 2;
-
     this.speed = 0.5 + Math.random() * 2;
     this.headRotationAngle = Math.random() * 2 * Math.PI;
     this.rotateClockwise = true;
-
-    // this.headRotationAngleDegs = (this.headRotationAngle * 180) / Math.PI; // For debug purposes
-    // this.headRotationAngle = (7 * Math.PI) / 4;
 
     this.speedX = this.speed * Math.cos(this.headRotationAngle);
     this.speedY = this.speed * Math.sin(this.headRotationAngle);
@@ -30,7 +24,7 @@ export class Fish {
     this.animationFrame = Math.round(Math.random() * 100);
 
     this.turning = false;
-    this.turnAngle = 0;
+    this.turnAngle = NaN;
     this.turnClockwise = false;
     this.headOffset = 0;
     this.tailOffset = 0;
@@ -98,11 +92,24 @@ export class Fish {
 
       let foodToChase;
 
+      if (this.foodToChaseID) {
+        let foodStillExists = foodToChaseArr.find(
+          (f) => f.id === this.foodToChaseID
+        );
+        if (!foodStillExists) {
+          this.foodToChaseID = NaN;
+          this.turnAngle = NaN;
+          if (this.turning) this.turning = false;
+          if (this.chasingFood) this.chasingFood = false;
+          return;
+        }
+      }
+
       if (foodToChaseArr.length < 1) return;
       else foodToChase = foodToChaseArr[0];
 
       if (foodToChase.distance > 200) return;
-      this.newFood = this.foodToChaseID !== foodToChase.id;      
+      this.newFood = this.foodToChaseID !== foodToChase.id;
 
       if (this.newFood) {
         this.foodToChaseID = foodToChase.id;
@@ -121,7 +128,6 @@ export class Fish {
           } else {
             // They are equal
             this.turning = false;
-            this.turnAngle = 0;
             this.speedX = this.speed * Math.cos(this.headRotationAngle);
             this.speedY = this.speed * Math.sin(this.headRotationAngle);
           }
@@ -141,19 +147,17 @@ export class Fish {
             this.turning = true;
           } else {
             // We are done turning
-
-            debugger;
-
             if (
               Math.sqrt(
                 foodToChase.xDistance * foodToChase.xDistance +
                   foodToChase.yDistance * foodToChase.yDistance
-              ) < 5
+              ) < 7
             ) {
               const index = food.findIndex((f) => f.id === this.foodToChaseID);
               food.splice(index, 1);
               setPondData({ ...pondData, food });
               this.chasingFood = false;
+              this.turnAngle = NaN;
             }
 
             this.x -= this.speedX;
@@ -165,88 +169,6 @@ export class Fish {
           }
         }
       }
-
-      // Calculate angle to that food
-
-      // Move towards that food
-
-      // Eat that food if close enough
-    };
-
-    // TODO: Redo food logic to constantly move towards closest food
-    this.doFoodLogic = (pondData, setPondData) => {
-      let { food } = pondData;
-      if (this.chasingFood && this.turning) {
-        let turnAmountPerFrame = (12 * Math.PI) / 180;
-        if (this.turnAngle > this.headRotationAngle) {
-          if (this.turnAngle - this.headRotationAngle < turnAmountPerFrame)
-            turnAmountPerFrame = this.turnAngle - this.headRotationAngle;
-          this.headRotationAngle += turnAmountPerFrame;
-        } else if (this.headRotationAngle > this.turnAngle) {
-          if (this.headRotationAngle - this.turnAngle < turnAmountPerFrame)
-            turnAmountPerFrame = this.headRotationAngle - this.turnAngle;
-          this.headRotationAngle -= turnAmountPerFrame;
-        } else {
-          // They are equal
-          this.turning = false;
-          this.speedX = this.speed * Math.cos(this.headRotationAngle);
-          this.speedY = this.speed * Math.sin(this.headRotationAngle);
-        }
-      } else if (this.chasingFood) {
-        const foodChasing = food.find((f) => f.id === this.foodToChaseID);
-        if (!foodChasing) {
-          this.chasingFood = false;
-        } else {
-          const xDistance = this.x - foodChasing.x;
-          const yDistance = this.y - foodChasing.y;
-
-          if (Math.sqrt(xDistance * xDistance + yDistance * yDistance) < 5) {
-            const index = food.findIndex((f) => f.id === this.foodToChaseID);
-            food.splice(index, 1);
-            setPondData({ ...pondData, food });
-          }
-
-          this.x -= this.speedX;
-          this.y -= this.speedY;
-
-          this.tailOffset = this.calculateAnimationOffset(40, 7, false);
-          this.finOffset = this.calculateAnimationOffset(20, 3, true);
-          this.animationFrame++;
-        }
-      } else {
-        // Find closest
-        const foodDistances = food
-          .map((f, i) => {
-            const xDistance = this.x - f.x;
-            const yDistance = this.y - f.y;
-            return {
-              distance: Math.sqrt(
-                xDistance * xDistance + yDistance * yDistance
-              ),
-              i,
-            };
-          })
-          .sort();
-
-        if (foodDistances.length > 0) {
-          const f = food[foodDistances[0].i];
-
-          const xDistance = this.x - f.x;
-          const yDistance = this.y - f.y;
-          if (Math.sqrt(xDistance * xDistance + yDistance * yDistance) < 200) {
-            this.foodToChaseID = f.id;
-
-            this.turnAngle = Math.atan2(yDistance, xDistance);
-
-            if (this.turnAngle < 0) {
-              this.turnAngle += 2 * Math.PI;
-            }
-
-            this.chasingFood = true;
-            this.turning = true;
-          }
-        }
-      }
     };
 
     this.doTurningLogic = () => {
@@ -254,16 +176,16 @@ export class Fish {
       const right = this.x >= this.canvasWidth - 50;
       const up = this.y <= 50;
       const down = this.y >= this.canvasHeight - 50;
-  
+
       const movingLeft = this.speedX > 0;
       const movingRight = this.speedX <= 0;
       const movingUp = this.speedY > 0;
       const movingDown = this.speedY <= 0;
-  
+
       // Account for headRotationAngle being larger than 360deg
       if (this.headRotationAngle > 2 * Math.PI)
         this.headRotationAngle = this.headRotationAngle % (2 * Math.PI);
-  
+
       // Figure out which wall is hit
       if ((left || right) && !this.turning) {
         this.turning = true;
@@ -275,14 +197,16 @@ export class Fish {
         this.turnAngle = Math.atan2(this.speedY, this.speedX);
       } else if (this.turning) {
         let turnAmountPerFrame = (12 * Math.PI) / 180;
-  
+
         if (this.headRotationAngle === this.turnAngle) {
           this.turning = false;
-  
+          this.turnAngle = NaN;
+
           // Move slightly away from edge at the end to avoid endless loops
           if (this.x <= 50) this.x = 50.001;
           if (this.y <= 50) this.y = 50.001;
-          if (this.x >= this.canvasWidth - 50) this.x = this.canvasWidth - 50.001;
+          if (this.x >= this.canvasWidth - 50)
+            this.x = this.canvasWidth - 50.001;
           if (this.y >= this.canvasHeight - 50)
             this.y = this.canvasHeight - 50.001;
         } else {
@@ -291,7 +215,8 @@ export class Fish {
               turnAmountPerFrame = this.turnAngle - this.headRotationAngle;
             this.headRotationAngle += turnAmountPerFrame;
           } else if (left && movingDown) {
-            if (this.turnAngle < 0) this.turnAngle = this.turnAngle + 2 * Math.PI;
+            if (this.turnAngle < 0)
+              this.turnAngle = this.turnAngle + 2 * Math.PI;
             if (this.headRotationAngle < 0)
               this.headRotationAngle = this.headRotationAngle + 2 * Math.PI;
             if (this.headRotationAngle - this.turnAngle < turnAmountPerFrame)
@@ -302,7 +227,8 @@ export class Fish {
               turnAmountPerFrame = this.headRotationAngle - this.turnAngle;
             this.headRotationAngle -= turnAmountPerFrame;
           } else if (up && movingRight) {
-            if (this.turnAngle < 0) this.turnAngle = this.turnAngle + 2 * Math.PI;
+            if (this.turnAngle < 0)
+              this.turnAngle = this.turnAngle + 2 * Math.PI;
             if (this.turnAngle - this.headRotationAngle < turnAmountPerFrame)
               turnAmountPerFrame = this.turnAngle - this.headRotationAngle;
             this.headRotationAngle += turnAmountPerFrame;
@@ -311,7 +237,8 @@ export class Fish {
               turnAmountPerFrame = this.headRotationAngle - this.turnAngle;
             this.headRotationAngle -= turnAmountPerFrame;
           } else if (right && movingDown) {
-            if (this.turnAngle < 0) this.turnAngle = this.turnAngle + 2 * Math.PI;
+            if (this.turnAngle < 0)
+              this.turnAngle = this.turnAngle + 2 * Math.PI;
             if (this.turnAngle - this.headRotationAngle < turnAmountPerFrame)
               turnAmountPerFrame = this.turnAngle - this.headRotationAngle;
             this.headRotationAngle += turnAmountPerFrame;
@@ -325,11 +252,11 @@ export class Fish {
             if (this.headRotationAngle < Math.PI / 2) {
               this.headRotationAngle += 2 * Math.PI;
             }
-  
+
             // Special case just for here
             if (this.headRotationAngle === this.turnAngle) {
               this.turning = false;
-  
+
               // Move slightly away from edge at the end to avoid endless loops
               if (this.x <= 50) this.x = 50.001;
               if (this.y <= 50) this.y = 50.001;
@@ -338,7 +265,7 @@ export class Fish {
               if (this.y >= this.canvasHeight - 50)
                 this.y = this.canvasHeight - 50.001;
             }
-  
+
             if (this.turnAngle - this.headRotationAngle < turnAmountPerFrame)
               turnAmountPerFrame = this.turnAngle - this.headRotationAngle;
             this.headRotationAngle += turnAmountPerFrame;
@@ -348,7 +275,7 @@ export class Fish {
     };
 
     this.update = (pondData, setPondData) => {
-      this.doFoodLogic(pondData, setPondData);
+      this.doFoodLogicV2(pondData, setPondData);
       if (!this.chasingFood) this.doMovementLogic();
     };
   }
