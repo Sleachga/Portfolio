@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
-export const myContext = React.createContext();
+export const PondContext = React.createContext();
 
 const Provider = (props) => {
   const [pondData, setPondData] = useState({
@@ -11,14 +11,14 @@ const Provider = (props) => {
   });
 
   return (
-    <myContext.Provider
+    <PondContext.Provider
       value={{
         pondData,
         setPondData: (data) => setPondData(data),
       }}
     >
       {props.children}
-    </myContext.Provider>
+    </PondContext.Provider>
   );
 };
 

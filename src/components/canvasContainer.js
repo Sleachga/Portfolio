@@ -1,10 +1,10 @@
 import React from 'react';
-import { myContext } from '../../provider';
+import { PondContext } from '../../provider';
 import CanvasComponent from './canvasComponent';
 
 const CanvasContainer = () => {
   return (
-    <myContext.Consumer>
+    <PondContext.Consumer>
       {(context) => (
         <React.Fragment>
           <CanvasComponent
@@ -21,7 +21,7 @@ const CanvasContainer = () => {
           />
         </React.Fragment>
       )}
-    </myContext.Consumer>
+    </PondContext.Consumer>
   );
 };
 

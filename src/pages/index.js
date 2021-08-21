@@ -8,6 +8,10 @@ import './css/global.css';
 
 import Typewriter from 'typewriter-effect';
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEnvelopeSquare } from '@fortawesome/free-solid-svg-icons';
+import { faTwitterSquare, faLinkedin } from '@fortawesome/free-brands-svg-icons';
+
 const Container = styled.div`
   display: flex;
   flex-direction: row;
@@ -15,6 +19,22 @@ const Container = styled.div`
 
 const Text = styled.div`
   padding-right: 4px;
+`;
+
+const Centered = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  padding-bottom: 10px;
+`;
+
+const SocialIcon = styled.a`
+  text-decoration: none;
+  color: black;
+
+  &:hover {
+    color: #199615;
+  }
 `;
 
 const IndexPage = () => {
@@ -41,10 +61,18 @@ const IndexPage = () => {
           />
         </Container>
       </div>
-      <p>
-        Click on the links above to learn
-        more about me (or feed the fish)
-      </p>
+      <p>Click on the links above to learn more about me (or feed the fish)</p>
+      <Centered>
+        <SocialIcon target="_blank" href="https://twitter.com/SleachCodes">
+          <FontAwesomeIcon size="2x" icon={faTwitterSquare} />
+        </SocialIcon>
+        <SocialIcon target="_blank" href="https://www.linkedin.com/in/sanford-leach/">
+          <FontAwesomeIcon size="2x" icon={faLinkedin} />
+        </SocialIcon>
+        <SocialIcon target="_blank" href="mailto:sanfordleach@gmail.com">
+          <FontAwesomeIcon size="2x" icon={faEnvelopeSquare} />
+        </SocialIcon>
+      </Centered>
       <div style={{ marginBottom: '10px' }}>
         <StaticImage
           alt="Me looking good while hiking"
