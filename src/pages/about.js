@@ -70,7 +70,7 @@ const AboutPage = () => {
           </p>
           <p>
             I became more involved in the design and planning of our
-            applications and spearhead our team internship program.
+            applications and spearheaded our team internship program.
           </p>
         </VerticalTimelineElement>
         <VerticalTimelineElement
