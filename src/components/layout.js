@@ -28,23 +28,12 @@ const Heading = styled.h1`
 const Navlinks = styled.ul`
   display: flex;
   flex-flow: row wrap;
-  justify-content: center;
+  justify-content: space-between;
   list-style: none;
   padding-left: 0;
 `;
 
-const NavlinkItem = styled.li`
-  ${(props) =>
-    props.first &&
-    `margin-left: 0 !important;
-      margin-right: auto;`}
-  ${(props) =>
-    props.last &&
-    `margin-left: auto
-    margin-right: 0 !important;`}
-  
-  margin: auto;
-`;
+const NavlinkItem = styled.li``;
 
 const NavLinkText = styled((props) => <Link {...props} />)`
   color: black;
