@@ -15,7 +15,7 @@ const DownloadIcon = styled.a`
   color: #199615;
 
   position: absolute;
-  top: 60px;
+  top: 62px;
   right: 40px;
   z-index: 10;
 
