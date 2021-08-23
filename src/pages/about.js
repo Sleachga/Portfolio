@@ -12,7 +12,7 @@ import {
   faChalkboardTeacher,
   faUtensils,
   faGraduationCap,
-  faBicycle
+  faBicycle,
 } from '@fortawesome/free-solid-svg-icons';
 
 import styled from 'styled-components';
@@ -52,7 +52,6 @@ const AboutPage = () => {
 
   return (
     <Layout wide page="about" pageTitle="About Me">
-      {/* Make this not white */}
       <VerticalTimeline>
         <VerticalTimelineElement
           contentStyle={contentStyle}
